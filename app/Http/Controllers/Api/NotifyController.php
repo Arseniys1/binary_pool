@@ -83,7 +83,7 @@ class NotifyController extends ApiController
             $stat->account_mode = User::LISTENER_MODE;
 
             if ($request->has('source_id')) {
-                $source_stat = UserStat::where('user_id', '=', $request->input('source_id'))
+                $source_stat = UserStat::where('id', '=', $request->input('source_id'))
                     ->first();
 
                 if ($source_stat == null) {
