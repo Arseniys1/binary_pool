@@ -34,6 +34,6 @@ class UserStat extends Model
     }
 
     public function sourceStat() {
-        return $this->hasOne('App\Models\SourceStat', 'source_id', 'source_id');
+        return $this->hasOne('App\Models\SourceStat', 'source_id', 'id');
     }
 }

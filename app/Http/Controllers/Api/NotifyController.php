@@ -198,19 +198,19 @@ class NotifyController extends ApiController
         if ($stat->account_mode == User::LISTENER_MODE && $stat->source_id != null) {
             switch ($stat->status) {
                 case UserStat::SUCCESS_STATUS:
-                    $stat->sourceStat->success_count += 1;
-                    $stat->sourceStat->win_sum += $stat->sum;
+                    $stat->source->sourceStat->success_count += 1;
+                    $stat->source->sourceStat->win_sum += $stat->sum;
                     break;
                 case UserStat::LOSS_STATUS:
-                    $stat->sourceStat->loss_status += 1;
-                    $stat->sourceStat->loss_sum += $stat->sum;
+                    $stat->source->sourceStat->loss_status += 1;
+                    $stat->source->sourceStat->loss_sum += $stat->sum;
                     break;
                 case UserStat::RET_STATUS:
-                    $stat->sourceStat->ret_count += 1;
+                    $stat->source->sourceStat->ret_count += 1;
                     break;
             }
 
-            $stat->sourceStat->save();
+            $stat->source->sourceStat->save();
         }
     }
 
