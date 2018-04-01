@@ -95,8 +95,8 @@ class NotifyController extends ApiController
                 $source_stat = UserStat::where('id', '=', $request->input('source_id'))
                     ->first();
 
-                if ($source_stat == null) {
-                    return $this->error_response('source_id not found');
+                if ($source_stat == null || $source_stat->account_mode != User::SOURCE_MODE) {
+                    return $this->error_response('source_id not found or account_mode not SOURCE_MODE');
                 }
 
                 $notify_acceess = NotifyAccess::where('source_id', '=', $source_stat->user_id)
