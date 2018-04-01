@@ -108,6 +108,7 @@ class NotifyController extends ApiController
                     return $this->error_response('notify access not found');
                 }
 
+                $stat->is_hidden = $notify_acceess->is_hidden;
                 $stat->source_id = $request->input('source_id');
             }
 
@@ -141,8 +142,10 @@ class NotifyController extends ApiController
         $stat->status = $request->input('status');
         $stat->save();
 
-        $this->updateUserFastStatistics($stat);
-        $this->updateSourceStatistics($stat);
+        if ($stat->is_hidden == UserStat::HIDDEN_DISABLE) {
+            $this->updateUserFastStatistics($stat);
+            $this->updateSourceStatistics($stat);
+        }
 
         $show_statistics = $this->getSourceListenersToInsert($stat->id, UserStat::UPDATE_SHOW_STATUS);
 

@@ -13,6 +13,10 @@ Route::prefix('api/{api_token}')->group(function () {
 
     Route::get('/changeSource/{source_id?}', 'Api\UserController@changeSource')->middleware('auth.api');
 
+    Route::get('/demo', 'Api\UserController@demo')->middleware('auth.api');
+
+    Route::get('/access', 'Api\UserController@access')->middleware('auth.api');
+
     Route::get('/getNotify', 'Api\NotifyController@getNotify')->middleware('auth.api');
 
     Route::post('/sendNotify', 'Api\NotifyController@sendNotify')->middleware('auth.api');

@@ -24,6 +24,7 @@ class CreateUserStatisticsTable extends Migration
             $table->string('cur_pair'); // Валютная пара
             $table->string('cur'); // Валюта ставки
             $table->integer('demo')->default(0); // Демо режим
+            $table->integer('is_hidden')->default(0); // Скрыть
             $table->bigInteger('source_id')->nullable(); // Id статистики источника. Использвуется когда ставка ставилась в режиме слушателя.
             $table->timestamps();
         });

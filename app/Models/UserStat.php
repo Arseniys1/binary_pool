@@ -20,11 +20,15 @@ class UserStat extends Model
     const CREATE_SHOW_STATUS = 0;
     const UPDATE_SHOW_STATUS = 1;
 
+    const HIDDEN_DISABLE = 0;
+    const HIDDEN_ENABLE = 1;
+
     protected $hidden = [
         'pivot',
         'updated_at',
         'source',
         'source_stat',
+        'is_hidden',
     ];
 
     public function user() {

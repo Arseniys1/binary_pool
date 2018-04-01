@@ -12,5 +12,12 @@ class NotifyAccess extends Model
     const ACTIVE_STATUS = 1;
     const EXPIRED_STATUS = 0;
 
+    const HIDDEN_DISABLE = 0;
+    const HIDDEN_ENABLE = 1;
+
     protected $table = 'notify_access';
+
+    protected $hidden = [
+        'is_hidden',
+    ];
 }

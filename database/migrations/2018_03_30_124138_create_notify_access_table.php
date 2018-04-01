@@ -19,6 +19,7 @@ class CreateNotifyAccessTable extends Migration
             $table->bigInteger('user_id');
             $table->integer('status'); // Статус доступа
             $table->integer('access_type'); // Тип доступа
+            $table->integer('is_hidden')->default(0); // Скрытый доступ
             $table->timestamp('end_at')->nullable(); // До какого активен доступ. Используется при типе доступа с ежемесячной оплатой
             $table->timestamps();
         });

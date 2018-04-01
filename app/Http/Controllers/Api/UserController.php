@@ -46,6 +46,18 @@ class UserController extends ApiController
         return $this->success_response(Auth::user()->with('settings')->get());
     }
 
+    public function demo(Request $request) {
+        $demo = Auth::user()->settings()->where('name', '=', 'demo')->first();
+        $demo->value = !$demo->value;
+        $demo->save();
+
+        return $this->success_response(Auth::user()->with('settings')->get());
+    }
+
+    public function access(Request $request) {
+        return $this->success_response(Auth::user()->notifyAccess);
+    }
+
     private function expiredNotify($notify_access) {
         $notify_access->status = NotifyAccess::EXPIRED_STATUS;
         $notify_access->save();
