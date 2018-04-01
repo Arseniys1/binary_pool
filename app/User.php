@@ -11,10 +11,12 @@ class User extends Authenticatable
 
     const SOURCE_MODE = 1;
     const LISTENER_MODE = 0;
-    const DEMO_MODE = 2;
 
-    private $fast_stat_source;
-    private $fast_stat_listener;
+    const DEMO_ENABLE = 1;
+    const DEMO_DISABLE = 0;
+
+    const DEMO_SOURCE = 2;
+    const DEMO_LISTENER = 3;
 
     /**
      * The attributes that are mass assignable.
@@ -45,22 +47,6 @@ class User extends Authenticatable
 
     public function stat() {
         return $this->hasMany('App\Models\UserStat', 'user_id', 'id');
-    }
-
-    public function getFastStatSource() {
-        if ($this->fast_stat_source == null) {
-            $this->fast_stat_source = $this->fastStat()->where('account_mode', '=', User::SOURCE_MODE)->first();
-        }
-
-        return $this->fast_stat_source;
-    }
-
-    public function getFastStatListener() {
-        if ($this->fast_stat_listener == null) {
-            $this->fast_stat_listener = $this->fastStat()->where('account_mode', '=', User::LISTENER_MODE)->first();
-        }
-
-        return $this->fast_stat_listener;
     }
 
     public function fastStat() {

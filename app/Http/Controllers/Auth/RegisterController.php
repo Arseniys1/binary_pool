@@ -87,6 +87,12 @@ class RegisterController extends Controller
             'name' => 'notify_id',
         ]);
 
+        UserSetting::create([
+            'user_id' => $user->id,
+            'name' => 'demo',
+            'value' => User::DEMO_DISABLE,
+        ]);
+
         UserFastStat::create([
             'user_id' => $user->id,
             'account_mode' => User::LISTENER_MODE,
@@ -99,7 +105,12 @@ class RegisterController extends Controller
 
         UserFastStat::create([
             'user_id' => $user->id,
-            'account_mode' => User::DEMO_MODE,
+            'account_mode' => User::DEMO_LISTENER,
+        ]);
+
+        UserFastStat::create([
+            'user_id' => $user->id,
+            'account_mode' => User::DEMO_SOURCE,
         ]);
     }
 

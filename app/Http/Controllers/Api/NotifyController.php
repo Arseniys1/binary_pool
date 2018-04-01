@@ -47,6 +47,7 @@ class NotifyController extends ApiController
 
     public function sendNotify(Request $request) {
         $v = Validator::make($request->all(), [
+            'platform_id' => 'required|integer',
             'direction' => 'required|boolean',
             'sum' => 'required|integer',
             'cur_pair' => 'required|string',
@@ -64,10 +65,16 @@ class NotifyController extends ApiController
         $stat = new UserStat;
 
         $stat->user_id = Auth::user()->id;
+        $stat->platform_id = $request->input('platform_id');
         $stat->direction = $request->input('direction');
         $stat->sum = $request->input('sum') * 100;
         $stat->status = UserStat::NO_STATUS;
         $stat->cur_pair = $request->input('cur_pair');
+        $stat->cur = $request->input('cur');
+
+        if ($request->has('demo')) {
+            $stat->demo = $request->input('demo');
+        }
 
         if ($account_mode == User::SOURCE_MODE) {
             $stat->account_mode = User::SOURCE_MODE;
@@ -106,6 +113,8 @@ class NotifyController extends ApiController
 
             $stat->save();
         }
+
+        $stat = UserStat::find($stat->id);
 
         return $this->success_response($stat);
     }
@@ -161,39 +170,33 @@ class NotifyController extends ApiController
     }
 
     private function updateUserFastStatistics($stat) {
-        if ($stat->account_mode == User::SOURCE_MODE) {
-            switch ($stat->status) {
-                case UserStat::SUCCESS_STATUS:
-                    Auth::user()->getFastStatSource()->success_count += 1;
-                    Auth::user()->getFastStatSource()->win_sum += $stat->sum;
-                    break;
-                case UserStat::LOSS_STATUS:
-                    Auth::user()->getFastStatSource()->loss_status += 1;
-                    Auth::user()->getFastStatSource()->loss_sum += $stat->sum;
-                    break;
-                case UserStat::RET_STATUS:
-                    Auth::user()->getFastStatSource()->ret_count += 1;
-                    break;
-            }
+        $fast_stat = null;
 
-            Auth::user()->getFastStatSource()->save();
+        if ($stat->demo == User::DEMO_ENABLE && $stat->account_mode == User::SOURCE_MODE) {
+            $fast_stat = Auth::user()->fastStat()->where('account_mode', '=', User::DEMO_SOURCE)->first();
+        } elseif ($stat->demo == User::DEMO_ENABLE && $stat->account_mode == User::LISTENER_MODE) {
+            $fast_stat = Auth::user()->fastStat()->where('account_mode', '=', User::DEMO_LISTENER)->first();
+        } elseif ($stat->account_mode == User::SOURCE_MODE) {
+            $fast_stat = Auth::user()->fastStat()->where('account_mode', '=', User::SOURCE_MODE)->first();
         } elseif ($stat->account_mode == User::LISTENER_MODE) {
-            switch ($stat->status) {
-                case UserStat::SUCCESS_STATUS:
-                    Auth::user()->getFastStatListener()->success_count += 1;
-                    Auth::user()->getFastStatListener()->win_sum += $stat->sum;
-                    break;
-                case UserStat::LOSS_STATUS:
-                    Auth::user()->getFastStatListener()->loss_status += 1;
-                    Auth::user()->getFastStatListener()->loss_sum += $stat->sum;
-                    break;
-                case UserStat::RET_STATUS:
-                    Auth::user()->getFastStatListener()->ret_count += 1;
-                    break;
-            }
-
-            Auth::user()->getFastStatListener()->save();
+            $fast_stat = Auth::user()->fastStat()->where('account_mode', '=', User::LISTENER_MODE)->first();
         }
+
+        switch ($stat->status) {
+            case UserStat::SUCCESS_STATUS:
+                $fast_stat->success_count += 1;
+                $fast_stat->win_sum += $stat->sum;
+                break;
+            case UserStat::LOSS_STATUS:
+                $fast_stat->loss_status += 1;
+                $fast_stat->loss_sum += $stat->sum;
+                break;
+            case UserStat::RET_STATUS:
+                $fast_stat->ret_count += 1;
+                break;
+        }
+
+        $fast_stat->save();
     }
 
     private function updateSourceStatistics($stat) {
