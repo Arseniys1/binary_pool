@@ -11,6 +11,7 @@ class User extends Authenticatable
 
     const SOURCE_MODE = 1;
     const LISTENER_MODE = 0;
+    const DEMO_MODE = 2;
 
     private $fast_stat_source;
     private $fast_stat_listener;

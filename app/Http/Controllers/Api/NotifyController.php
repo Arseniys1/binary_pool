@@ -50,6 +50,8 @@ class NotifyController extends ApiController
             'direction' => 'required|boolean',
             'sum' => 'required|integer',
             'cur_pair' => 'required|string',
+            'cur' => 'required|string',
+            'demo' => 'boolean',
             'source_id' => 'integer',
         ]);
 

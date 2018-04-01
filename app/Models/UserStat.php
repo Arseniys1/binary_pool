@@ -23,6 +23,8 @@ class UserStat extends Model
     protected $hidden = [
         'pivot',
         'updated_at',
+        'source',
+        'source_stat',
     ];
 
     public function user() {

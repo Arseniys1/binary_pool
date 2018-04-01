@@ -96,6 +96,11 @@ class RegisterController extends Controller
             'user_id' => $user->id,
             'account_mode' => User::SOURCE_MODE,
         ]);
+
+        UserFastStat::create([
+            'user_id' => $user->id,
+            'account_mode' => User::DEMO_MODE,
+        ]);
     }
 
 
