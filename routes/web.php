@@ -22,6 +22,8 @@ Route::prefix('api/{api_token}')->group(function () {
     Route::post('/sendNotify', 'Api\NotifyController@sendNotify')->middleware('auth.api');
 
     Route::post('/updateNotify', 'Api\NotifyController@updateNotify')->middleware('auth.api');
+
+    Route::post('/getSourceStat', 'Api\NotifyController@getSourceStat')->middleware('auth.api');
 });
 
 Auth::routes();

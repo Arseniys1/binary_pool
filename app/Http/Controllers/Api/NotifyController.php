@@ -154,6 +154,31 @@ class NotifyController extends ApiController
         return $this->success_response($stat);
     }
 
+    public function getSourceStat(Request $request) {
+        $v = Validator::make($request->all(), [
+            'stat_ids' => 'required|array|min:1|max:10',
+            'stat_ids.*' => 'integer',
+        ]);
+
+        if ($v->fails()) {
+            return $this->error_response($v->errors());
+        }
+
+        $user_stats = UserStat::whereIn('id', $request->input('stat_ids'))
+            ->where('user_id', '=', Auth::user()->id)
+            ->where('account_mode', '=', User::SOURCE_MODE)
+            ->with('sourceStat')
+            ->get();
+
+        $source_stats = [];
+
+        foreach ($user_stats as $user_stat) {
+            $source_stats[] = $user_stat->sourceStat;
+        }
+
+        return $this->success_response($source_stats);
+    }
+
     private function getSourceListenersToInsert($stat_id, $status) {
         $users_settings = UserSetting::where('name', '=', 'notify_id')
             ->where('value', '=', Auth::user()->id)
