@@ -9,7 +9,7 @@ use App\Models\NotifyAccess;
 class UserController extends ApiController
 {
     public function getUser(Request $request) {
-        return $this->success_response(Auth::user()->with('settings')->get());
+        return $this->success_response(Auth::user()->with('settings')->first());
     }
 
     public function changeAccountMode() {
@@ -51,11 +51,16 @@ class UserController extends ApiController
         $demo->value = !$demo->value;
         $demo->save();
 
-        return $this->success_response(Auth::user()->with('settings')->get());
+        return $this->success_response(Auth::user()->with('settings')->first());
     }
 
     public function access(Request $request) {
-        return $this->success_response(Auth::user()->notifyAccess);
+        return $this->success_response(Auth::user()
+            ->notifyAccess()
+            ->with('source')
+            ->orderBy('id', 'desc')
+            ->limit(10)
+            ->get());
     }
 
     private function expiredNotify($notify_access) {

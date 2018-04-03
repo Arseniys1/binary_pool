@@ -20,4 +20,8 @@ class NotifyAccess extends Model
     protected $hidden = [
         'is_hidden',
     ];
+
+    public function source() {
+        return $this->hasOne('App\User', 'id', 'source_id');
+    }
 }

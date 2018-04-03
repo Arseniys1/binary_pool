@@ -39,6 +39,7 @@ class User extends Authenticatable
         'remember_token',
         'api_token',
         'updated_at',
+        'email',
     ];
 
     public function settings() {
