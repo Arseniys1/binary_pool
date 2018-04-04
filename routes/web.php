@@ -3,8 +3,10 @@
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
+
+Route::get('/sources_list', 'SourcesListController@get')->middleware('auth');
 
 Route::prefix('api/{api_token}')->group(function () {
     Route::get('/getUser', 'Api\UserController@getUser')->middleware('auth.api');
