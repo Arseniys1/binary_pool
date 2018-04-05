@@ -10,6 +10,8 @@ Route::get('/sources_list/{search_mode?}', 'SourcesListController@get')->middlew
 
 Route::get('/profile/{user_id}/{mode?}', 'ProfileController@get')->middleware('auth')->name('profile');
 
+Route::post('/profile/{mode}', 'ProfileController@post')->middleware('auth')->name('edit_profile');
+
 Route::prefix('api/{api_token}')->group(function () {
     Route::get('/getUser', 'Api\UserController@getUser')->middleware('auth.api');
 

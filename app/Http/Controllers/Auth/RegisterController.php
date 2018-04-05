@@ -93,6 +93,28 @@ class RegisterController extends Controller
             'value' => User::DEMO_DISABLE,
         ]);
 
+        UserSetting::create([
+            'user_id' => $user->id,
+            'name' => 'price',
+        ]);
+
+        UserSetting::create([
+            'user_id' => $user->id,
+            'name' => 'days',
+        ]);
+
+        UserSetting::create([
+            'user_id' => $user->id,
+            'name' => 'forever',
+            'value' => false,
+        ]);
+
+        UserSetting::create([
+            'user_id' => $user->id,
+            'name' => 'balance',
+            'value' => 0,
+        ]);
+
         UserFastStat::create([
             'user_id' => $user->id,
             'account_mode' => User::LISTENER_MODE,
