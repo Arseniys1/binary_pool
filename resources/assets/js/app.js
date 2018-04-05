@@ -16,12 +16,10 @@ window.Vue = require('vue');
  */
 
 import ExampleComponent from './components/ExampleComponent';
-import SourcesList from './components/SourcesList';
 
 const app = new Vue({
     el: '#app',
     components: {
         ExampleComponent,
-        SourcesList,
     },
 });

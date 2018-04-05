@@ -6,7 +6,9 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/sources_list', 'SourcesListController@get')->middleware('auth');
+Route::get('/sources_list/{search_mode?}', 'SourcesListController@get')->middleware('auth')->name('sources_list');
+
+Route::get('/profile/{user_id}/{mode?}', 'ProfileController@get')->middleware('auth')->name('profile');
 
 Route::prefix('api/{api_token}')->group(function () {
     Route::get('/getUser', 'Api\UserController@getUser')->middleware('auth.api');

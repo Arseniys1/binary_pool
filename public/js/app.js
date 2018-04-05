@@ -13867,6 +13867,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_ExampleComponent___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_ExampleComponent__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_SourcesList__ = __webpack_require__(48);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_SourcesList___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_SourcesList__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Profile__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Profile___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_Profile__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -13887,11 +13889,13 @@ window.Vue = __webpack_require__(36);
 
 
 
+
 var app = new Vue({
   el: '#app',
   components: {
     ExampleComponent: __WEBPACK_IMPORTED_MODULE_0__components_ExampleComponent___default.a,
-    SourcesList: __WEBPACK_IMPORTED_MODULE_1__components_SourcesList___default.a
+    SourcesList: __WEBPACK_IMPORTED_MODULE_1__components_SourcesList___default.a,
+    Profile: __WEBPACK_IMPORTED_MODULE_2__components_Profile___default.a
   }
 });
 
@@ -47509,7 +47513,7 @@ exports = module.exports = __webpack_require__(45)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47785,9 +47789,70 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "sources-list"
+    name: "sources-list",
+    props: ['laravelData'],
+    data: function data() {
+        return {
+            users: [],
+            search_mode: '',
+            error: null
+        };
+    },
+
+    methods: {},
+    mounted: function mounted() {
+        var laravelDataParsed = JSON.parse(this.laravelData);
+        this.users = laravelDataParsed.users;
+        this.search_mode = laravelDataParsed.search_mode;
+        this.error = laravelDataParsed.error;
+
+        this.users.forEach(function (user) {
+            if (user.user === null) return;
+
+            user.user.settings.forEach(function (setting) {
+                if (setting.name === 'price') {
+                    user.user.price = setting.value / 100;
+                }
+            });
+        });
+    }
 });
 
 /***/ }),
@@ -47798,7 +47863,119 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "card card-default" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _vm._v("Статистика источников")
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "card-body" },
+            [
+              _vm.error
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "alert alert-danger",
+                      attrs: { role: "alert" }
+                    },
+                    [_vm._v(_vm._s(_vm.error))]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c("ul", { staticClass: "list-inline" }, [
+                _c("li", { staticClass: "list-inline-item" }, [
+                  _vm._v("Отображать")
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "list-inline-item" }, [
+                  _vm.search_mode !== "source"
+                    ? _c("a", { attrs: { href: "/sources_list/source" } }, [
+                        _vm._v("Реальный счет")
+                      ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "list-inline-item" }, [
+                  _vm.search_mode !== "source_demo"
+                    ? _c(
+                        "a",
+                        { attrs: { href: "/sources_list/source_demo" } },
+                        [_vm._v("Демо счет")]
+                      )
+                    : _vm._e()
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.users, function(user) {
+                return _c("div", { staticClass: "card card-default mb-5" }, [
+                  user.user
+                    ? _c("div", { staticClass: "card-header" }, [
+                        _c("a", { staticClass: "mr-2", attrs: { href: "#" } }, [
+                          _vm._v(_vm._s(user.user.name))
+                        ]),
+                        _vm._v(" "),
+                        _c("a", { attrs: { href: "#" } }, [
+                          _vm._v(
+                            "Купить оповещения за " +
+                              _vm._s(user.user.price) +
+                              " рублей"
+                          )
+                        ])
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("ul", { staticClass: "list-inline" }, [
+                      _c(
+                        "li",
+                        { staticClass: "list-inline-item text-success" },
+                        [
+                          _vm._v(
+                            "Успешные сделки " + _vm._s(user.success_count)
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "li",
+                        { staticClass: "list-inline-item text-success" },
+                        [_vm._v("Выиграл " + _vm._s(user.win_sum))]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "li",
+                        { staticClass: "list-inline-item text-danger" },
+                        [
+                          _vm._v(
+                            "Проигрышные сделки " + _vm._s(user.loss_count)
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "li",
+                        { staticClass: "list-inline-item text-danger" },
+                        [_vm._v("Проиграл " + _vm._s(user.loss_sum))]
+                      ),
+                      _vm._v(" "),
+                      _c("li", { staticClass: "list-inline-item text-info" }, [
+                        _vm._v("Возвраты " + _vm._s(user.ret_count))
+                      ])
+                    ])
+                  ])
+                ])
+              })
+            ],
+            2
+          )
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -47807,6 +47984,313 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-7932b7cf", module.exports)
+  }
+}
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(56)
+}
+var normalizeComponent = __webpack_require__(40)
+/* script */
+var __vue_script__ = __webpack_require__(58)
+/* template */
+var __vue_template__ = __webpack_require__(59)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-22ef5402"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\Profile.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-22ef5402", Component.options)
+  } else {
+    hotAPI.reload("data-v-22ef5402", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(57);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(51)("eacc4658", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-22ef5402\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Profile.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-22ef5402\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Profile.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(45)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 58 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "profile",
+    props: ['laravelData'],
+    data: function data() {
+        return {
+            user: null,
+            fast_stat: null,
+            notify_access: null,
+            error: null
+        };
+    },
+
+    methods: {},
+    mounted: function mounted() {
+        var _this = this;
+
+        var laravelDataParsed = JSON.parse(this.laravelData);
+        this.user = laravelDataParsed.user;
+        this.fast_stat = laravelDataParsed.fast_stat;
+        this.notify_access = laravelDataParsed.notify_access;
+        this.error = laravelDataParsed.error;
+
+        this.user.settings.forEach(function (setting) {
+            if (setting.name === 'price') {
+                _this.user.price = setting.value / 100;
+            }
+        });
+    }
+});
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "card card-default" }, [
+          _vm.user
+            ? _c("div", { staticClass: "card-header" }, [
+                _vm._v("Профиль " + _vm._s(_vm.user.name) + " "),
+                _c("a", { attrs: { href: "#" } }, [
+                  _vm._v(
+                    "Купить оповещения за " + _vm._s(_vm.user.price) + " рублей"
+                  )
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "card-body" },
+            [
+              _vm.error
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "alert alert-danger",
+                      attrs: { role: "alert" }
+                    },
+                    [_vm._v(_vm._s(_vm.error))]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c("ul", { staticClass: "list-inline" }, [
+                _c("li", { staticClass: "list-inline-item" }, [
+                  _c("a", { attrs: { href: "/profile/" + _vm.user.id } }, [
+                    _vm._v("Статистика пользователя")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "list-inline-item" }, [
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "/profile/" + _vm.user.id + "/listeners" }
+                    },
+                    [_vm._v("Слушатели пользователя")]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.fast_stat, function(stat) {
+                return _vm.fast_stat
+                  ? _c("div", { staticClass: "card card-default mb-2" }, [
+                      stat.account_mode === 1
+                        ? _c("div", { staticClass: "card-header" }, [
+                            _vm._v("Статистика источника")
+                          ])
+                        : stat.account_mode === 0
+                          ? _c("div", { staticClass: "card-header" }, [
+                              _vm._v("Статистика слушателя")
+                            ])
+                          : stat.account_mode === 2
+                            ? _c("div", { staticClass: "card-header" }, [
+                                _vm._v("Статистика источника в демо режиме")
+                              ])
+                            : stat.account_mode === 3
+                              ? _c("div", { staticClass: "card-header" }, [
+                                  _vm._v("Статистика слушателя в демо режиме")
+                                ])
+                              : _vm._e(),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "card-body" }, [
+                        _c("ul", { staticClass: "list-inline" }, [
+                          _c(
+                            "li",
+                            { staticClass: "list-inline-item text-success" },
+                            [
+                              _vm._v(
+                                "Успешные сделки " + _vm._s(stat.success_count)
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "li",
+                            { staticClass: "list-inline-item text-success" },
+                            [_vm._v("Выиграл " + _vm._s(stat.win_sum))]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "li",
+                            { staticClass: "list-inline-item text-danger" },
+                            [
+                              _vm._v(
+                                "Проигрышные сделки " + _vm._s(stat.loss_count)
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "li",
+                            { staticClass: "list-inline-item text-danger" },
+                            [_vm._v("Проиграл " + _vm._s(stat.loss_sum))]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "li",
+                            { staticClass: "list-inline-item text-info" },
+                            [_vm._v("Возвраты " + _vm._s(stat.ret_count))]
+                          )
+                        ])
+                      ])
+                    ])
+                  : _vm._e()
+              })
+            ],
+            2
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-22ef5402", module.exports)
   }
 }
 

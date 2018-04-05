@@ -24,4 +24,8 @@ class NotifyAccess extends Model
     public function source() {
         return $this->hasOne('App\User', 'id', 'source_id');
     }
+
+    public function user() {
+        return $this->hasOne('App\User', 'id', 'user_id');
+    }
 }
