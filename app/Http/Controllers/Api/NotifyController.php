@@ -47,11 +47,10 @@ class NotifyController extends ApiController
 
     public function sendNotify(Request $request) {
         $v = Validator::make($request->all(), [
-            'platform_id' => 'required|integer',
             'direction' => 'required|boolean',
+            'duration' => 'required|integer',
             'sum' => 'required|integer',
             'cur_pair' => 'required|string',
-            'cur' => 'required|string',
             'demo' => 'boolean',
             'source_id' => 'integer',
         ]);
@@ -65,12 +64,11 @@ class NotifyController extends ApiController
         $stat = new UserStat;
 
         $stat->user_id = Auth::user()->id;
-        $stat->platform_id = $request->input('platform_id');
         $stat->direction = $request->input('direction');
+        $stat->duration = $request->input('duration');
         $stat->sum = $request->input('sum') * 100;
         $stat->status = UserStat::NO_STATUS;
         $stat->cur_pair = $request->input('cur_pair');
-        $stat->cur = $request->input('cur');
 
         if ($request->has('demo')) {
             $stat->demo = $request->input('demo');
@@ -124,6 +122,7 @@ class NotifyController extends ApiController
         $v = Validator::make($request->all(), [
             'id' => 'required|integer',
             'status' => 'required|integer|in:0,1,2,3',
+            'platform_id' => 'integer',
         ]);
 
         if ($v->fails()) {
@@ -137,6 +136,10 @@ class NotifyController extends ApiController
 
         if ($stat == null) {
             return $this->error_response('notify not found');
+        }
+
+        if ($request->has('platform_id')) {
+            $stat->platform_id = $request->input('platform_id');
         }
 
         $stat->status = $request->input('status');

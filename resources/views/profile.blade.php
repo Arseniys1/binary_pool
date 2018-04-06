@@ -235,7 +235,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="card mb-3">
                         <div class="card-header">Источник оповещений</div>
                         <div class="card-body">
                             <form method="post" action="{{ route('edit_profile', ['mode' => 'notify_id']) }}">
@@ -253,6 +253,36 @@
                             </form>
                         </div>
                     </div>
+                    <div class="card">
+                        <div class="card-header">Режим аккаунта</div>
+                        <div class="card-body">
+                            <form>
+                                {{ csrf_field() }}
+
+                                <div class="form-group">
+                                    <select class="form-control" name="account_mode" id="account_mode">
+                                        @foreach($user_settings as $setting)
+                                            @if($setting->name == 'account_mode' && $setting->value == 0)
+                                                <option value="0" selected>Слушатель</option>
+                                                <option value="1">Источник</option>
+                                            @elseif($setting->name == 'account_mode' && $setting->value == 1)
+                                                <option value="0">Слушатель</option>
+                                                <option value="1" selected>Источник</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    <small class="form-text text-muted">Режим аккаунта можно менять 1 раз в 10 минут</small>
+                                </div>
+                                <div class="alert alert-danger" role="alert" style="display: none;" id="error_msg"></div>
+                                <button type="submit" class="btn btn-primary" id="save_account_mode">Сохранить</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <script type="text/javascript">
+                        window.api_token = '{!! Auth::user()->api_token !!}';
+                    </script>
+                    <script src="{{ asset('js/my_settings.js') }}"></script>
                 @endif
             @elseif(Request::route('mode') == 'my_balance')
                 @if($user_settings != null)

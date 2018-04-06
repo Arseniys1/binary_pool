@@ -12,6 +12,12 @@ Route::get('/profile/{user_id}/{mode?}', 'ProfileController@get')->middleware('a
 
 Route::post('/profile/{mode}', 'ProfileController@post')->middleware('auth')->name('edit_profile');
 
+Route::get('/ext', 'ExtensionController@get')->middleware('auth')->name('ext');
+
+Route::post('/ext', 'ExtensionController@post')->middleware('auth')->name('change_api_token');
+
+Route::get('/ext_not_installed', 'ExtensionController@extNotInstalled')->middleware('auth');
+
 Route::prefix('api/{api_token}')->group(function () {
     Route::get('/getUser', 'Api\UserController@getUser')->middleware('auth.api');
 
