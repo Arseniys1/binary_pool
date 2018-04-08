@@ -43,12 +43,6 @@ class NotifyController extends ApiController
             } elseif ($stat->pivot->status == UserStat::UPDATE_SHOW_STATUS && strtotime($stat->updated_at) > time() - 10) {
                 $show_stats_result['update'][] = $stat;
             }
-
-            if ($stat->pivot->status == UserStat::CREATE_SHOW_STATUS) {
-                $show_stats_result['create'][] = $stat;
-            } elseif ($stat->pivot->status == UserStat::UPDATE_SHOW_STATUS) {
-                $show_stats_result['update'][] = $stat;
-            }
         }
 
         return $this->success_response($show_stats_result);
@@ -227,7 +221,7 @@ class NotifyController extends ApiController
                 $fast_stat->win_sum += $stat->sum;
                 break;
             case UserStat::LOSS_STATUS:
-                $fast_stat->loss_status += 1;
+                $fast_stat->loss_count += 1;
                 $fast_stat->loss_sum += $stat->sum;
                 break;
             case UserStat::RET_STATUS:
