@@ -19,6 +19,7 @@ class CreateSourceStatisticsTable extends Migration
             $table->integer('success_count')->default(0); // Количество побед
             $table->integer('loss_count')->default(0); // Количество проигрышей
             $table->integer('ret_count')->default(0); // Количество возвратов
+            $table->integer('cancel_count')->default(0); // Количество продаж
             $table->integer('win_sum')->default(0); // Сколько заработал. В копейках
             $table->integer('loss_sum')->default(0); // Сколько проиграл. В копейках
         });

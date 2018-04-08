@@ -18,6 +18,8 @@ Route::post('/ext', 'ExtensionController@post')->middleware('auth')->name('chang
 
 Route::get('/ext_not_installed', 'ExtensionController@extNotInstalled')->middleware('auth');
 
+Route::get('/dev_register', 'DevController@register');
+
 Route::prefix('api/{api_token}')->group(function () {
     Route::get('/getUser', 'Api\UserController@getUser')->middleware('auth.api');
 

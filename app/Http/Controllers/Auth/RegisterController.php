@@ -76,6 +76,9 @@ class RegisterController extends Controller
 
     protected function registered(Request $request, $user)
     {
+        $user->api_token = str_random(32);
+        $user->save();
+
         UserSetting::create([
             'user_id' => $user->id,
             'name' => 'account_mode',

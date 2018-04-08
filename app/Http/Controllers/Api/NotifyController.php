@@ -23,7 +23,10 @@ class NotifyController extends ApiController
             return $this->error_response('mode source');
         }
 
-        $show_stats = Auth::user()->showStats;
+        $show_stats = Auth::user()
+            ->showStats()
+            ->with('user')
+            ->get();
 
         $show_stats_result = [
             'create' => [],
@@ -40,6 +43,12 @@ class NotifyController extends ApiController
             } elseif ($stat->pivot->status == UserStat::UPDATE_SHOW_STATUS && strtotime($stat->updated_at) > time() - 10) {
                 $show_stats_result['update'][] = $stat;
             }
+
+            if ($stat->pivot->status == UserStat::CREATE_SHOW_STATUS) {
+                $show_stats_result['create'][] = $stat;
+            } elseif ($stat->pivot->status == UserStat::UPDATE_SHOW_STATUS) {
+                $show_stats_result['update'][] = $stat;
+            }
         }
 
         return $this->success_response($show_stats_result);
@@ -51,6 +60,7 @@ class NotifyController extends ApiController
             'duration' => 'required|integer',
             'sum' => 'required|integer',
             'cur_pair' => 'required|string',
+            'platform_id' => 'required|integer',
             'demo' => 'boolean',
             'source_id' => 'integer',
         ]);
@@ -69,6 +79,7 @@ class NotifyController extends ApiController
         $stat->sum = $request->input('sum') * 100;
         $stat->status = UserStat::NO_STATUS;
         $stat->cur_pair = $request->input('cur_pair');
+        $stat->platform_id = $request->input('platform_id');
 
         if ($request->has('demo')) {
             $stat->demo = $request->input('demo');
@@ -121,8 +132,7 @@ class NotifyController extends ApiController
     public function updateNotify(Request $request) {
         $v = Validator::make($request->all(), [
             'id' => 'required|integer',
-            'status' => 'required|integer|in:0,1,2,3',
-            'platform_id' => 'integer',
+            'status' => 'required|integer|in:0,1,2,3,4',
         ]);
 
         if ($v->fails()) {
@@ -138,10 +148,6 @@ class NotifyController extends ApiController
             return $this->error_response('notify not found');
         }
 
-        if ($request->has('platform_id')) {
-            $stat->platform_id = $request->input('platform_id');
-        }
-
         $stat->status = $request->input('status');
         $stat->save();
 
@@ -153,6 +159,8 @@ class NotifyController extends ApiController
         $show_statistics = $this->getSourceListenersToInsert($stat->id, UserStat::UPDATE_SHOW_STATUS);
 
         DB::table('show_statistics')->insert($show_statistics);
+
+        $stat = UserStat::find($stat->id);
 
         return $this->success_response($stat);
     }
@@ -225,6 +233,9 @@ class NotifyController extends ApiController
             case UserStat::RET_STATUS:
                 $fast_stat->ret_count += 1;
                 break;
+            case UserStat::CANCEL_STATUS:
+                $fast_stat->cancel_count += 1;
+                break;
         }
 
         $fast_stat->save();
@@ -243,6 +254,9 @@ class NotifyController extends ApiController
                     break;
                 case UserStat::RET_STATUS:
                     $stat->source->sourceStat->ret_count += 1;
+                    break;
+                case UserStat::CANCEL_STATUS:
+                    $stat->source->sourceStat->cancel_count += 1;
                     break;
             }
 

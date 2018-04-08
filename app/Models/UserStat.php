@@ -15,6 +15,7 @@ class UserStat extends Model
     const SUCCESS_STATUS = 1;
     const LOSS_STATUS = 0;
     const RET_STATUS = 2;
+    const CANCEL_STATUS = 4;
     const NO_STATUS = 3;
 
     const CREATE_SHOW_STATUS = 0;
