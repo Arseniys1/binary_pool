@@ -281,6 +281,7 @@
 
                     <script type="text/javascript">
                         window.api_token = '{!! Auth::user()->api_token !!}';
+                        window.user = '{!! json_encode($user) !!}'
                     </script>
                     <script src="{{ asset('js/my_settings.js') }}"></script>
                 @endif

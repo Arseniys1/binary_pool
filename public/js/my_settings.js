@@ -30,3 +30,7 @@ $save_account_mode.click((event) => {
         }
     });
 });
+
+const ext_id = 'jlmdiecilelgoaiomgcikdafkhpaigai';
+
+chrome.runtime.sendMessage(ext_id, {action: "setData", user: JSON.parse(user), api_token: api_token});
