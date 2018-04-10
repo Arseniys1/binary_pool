@@ -17,7 +17,7 @@ $show_api_token.click((event) => {
     }
 });
 
-const ext_id = 'lmldlkajhaffjhmnmpamkennmajkjjje';
+const ext_id = 'jlmdiecilelgoaiomgcikdafkhpaigai';
 
 chrome.runtime.sendMessage(ext_id, {action: "extInstalled"}, function(response) {
     if (!response) {
