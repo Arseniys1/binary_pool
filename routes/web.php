@@ -1,24 +1,22 @@
 <?php
 
+Route::group(['middleware' => ['web', 'auth']], function () {
+    Route::get('/', function () {
+        return view('index');
+    });
 
+    Route::get('/sources_list/{search_mode?}', 'SourcesListController@get')->name('sources_list');
 
-Route::get('/', function () {
-    return view('index');
+    Route::get('/profile/{user_id}/{mode?}', 'ProfileController@get')->name('profile');
+
+    Route::post('/profile/{mode}', 'ProfileController@post')->name('edit_profile');
+
+    Route::get('/ext', 'ExtensionController@get')->name('ext');
+
+    Route::post('/ext', 'ExtensionController@post')->name('change_api_token');
+
+    Route::get('/ext_not_installed', 'ExtensionController@extNotInstalled');
 });
-
-Route::get('/sources_list/{search_mode?}', 'SourcesListController@get')->middleware('auth')->name('sources_list');
-
-Route::get('/profile/{user_id}/{mode?}', 'ProfileController@get')->middleware('auth')->name('profile');
-
-Route::post('/profile/{mode}', 'ProfileController@post')->middleware('auth')->name('edit_profile');
-
-Route::get('/ext', 'ExtensionController@get')->middleware('auth')->name('ext');
-
-Route::post('/ext', 'ExtensionController@post')->middleware('auth')->name('change_api_token');
-
-Route::get('/ext_not_installed', 'ExtensionController@extNotInstalled')->middleware('auth');
-
-Route::get('/dev_register', 'DevController@register');
 
 Route::prefix('api/{api_token}')->group(function () {
     Route::get('/getUser', 'Api\UserController@getUser')->middleware('auth.api');

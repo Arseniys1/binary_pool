@@ -1,8 +1,13 @@
 $save_account_mode = $('#save_account_mode');
 $error_msg = $('#error_msg');
+$account_mode = $('#account_mode');
+
+const account_mode_value = $account_mode.val();
 
 $save_account_mode.click((event) => {
     event.preventDefault();
+
+    if (account_mode_value === $account_mode.val()) return;
 
     $.get('/api/' + api_token + '/changeAccountMode', (response) => {
         response = JSON.parse(response);

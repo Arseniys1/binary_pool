@@ -30,7 +30,7 @@ class ProfileController extends Controller
         } elseif ($request->route('mode') == 'listeners') {
             $notify_access = NotifyAccess::where('source_id', '=', $user->id)
                 ->where('is_hidden', '=', NotifyAccess::HIDDEN_DISABLE)
-                ->with('user', 'user.fastStat')
+                ->with('user')
                 ->paginate(20);
         } elseif ($request->route('mode') == 'my_stat' && Auth::user()->id == $request->route('user_id')) {
             $user_stat = UserStat::where('user_id', '=', Auth::user()->id)

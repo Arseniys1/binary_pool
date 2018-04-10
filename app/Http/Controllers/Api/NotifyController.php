@@ -243,7 +243,7 @@ class NotifyController extends ApiController
                     $stat->source->sourceStat->win_sum += $stat->sum;
                     break;
                 case UserStat::LOSS_STATUS:
-                    $stat->source->sourceStat->loss_status += 1;
+                    $stat->source->sourceStat->loss_count += 1;
                     $stat->source->sourceStat->loss_sum += $stat->sum;
                     break;
                 case UserStat::RET_STATUS:

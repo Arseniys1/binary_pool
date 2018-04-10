@@ -9,37 +9,40 @@
 
             <a href="{{ url()->previous() }}">Назад</a>
         @else
-            <h4>Профиль {{ $user->name }}</h4>
-            <ul class="list-inline">
-                <li class="list-inline-item"><a
-                            href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'fast_stat']) }}">Статистика
-                        пользователя</a></li>
-                <li class="list-inline-item"><a
-                            href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'listeners']) }}">Слушатели
-                        пользователя</a></li>
-                @if(Auth::user()->id == Request::route('user_id'))
-                    <li class="list-inline-item"><a
-                                href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'my_stat']) }}">Мои
-                            сделки</a>
-                    </li>
+            <h3>Профиль {{ $user->name }}</h3>
 
+            <div class="filter text-right mt-5 mb-5">
+                <ul class="list-inline">
                     <li class="list-inline-item"><a
-                                href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'my_balance']) }}">Мой
-                            баланс</a>
-                    </li>
+                                href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'fast_stat']) }}">Статистика
+                            пользователя</a></li>
+                    <li class="list-inline-item"><a
+                                href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'listeners']) }}">Слушатели
+                            пользователя</a></li>
+                    @if(Auth::user()->id == Request::route('user_id'))
+                        <li class="list-inline-item"><a
+                                    href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'my_stat']) }}">Мои
+                                сделки</a>
+                        </li>
 
-                    <li class="list-inline-item"><a
-                                href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'my_settings']) }}">Мои
-                            настройки</a>
-                    </li>
-                @endif
-            </ul>
+                        <li class="list-inline-item"><a
+                                    href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'my_balance']) }}">Мой
+                                баланс</a>
+                        </li>
+
+                        <li class="list-inline-item"><a
+                                    href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'my_settings']) }}">Мои
+                                настройки</a>
+                        </li>
+                    @endif
+                </ul>
+            </div>
 
             @if(Request::route('mode') == 'fast_stat' || Request::route('mode') == null)
                 @if($fast_stat->count() > 0)
-                    <div class="row mb-5">
+                    <div class="row p-fix">
                         @foreach($fast_stat as $stat)
-                            <div class="card col-md-4">
+                            <div class="card col-md-6 text-center">
                                 <div class="card-body">
                                     @if($stat->account_mode == 1)
                                         <h5 class="card-title">Статистика источника</h5>
@@ -54,7 +57,8 @@
                                     <ul class="list-unstyled">
                                         <li class="text-success">Успешные {{ $stat->success_count }}</li>
                                         <li class="text-danger">Проигрышные {{ $stat->loss_count }}</li>
-                                        <li class="text-dark">Возвраты {{ $stat->ret_count }}</li>
+                                        <li class="">Возвраты {{ $stat->ret_count }}</li>
+                                        <li class="">Продажи {{ $stat->cancel_count }}</li>
                                         <li class="text-success">Заработал {{ $stat->win_sum / 100 }}</li>
                                         <li class="text-danger">Проиграл {{ $stat->loss_sum / 100 }}</li>
                                     </ul>
@@ -69,33 +73,13 @@
                 @endif
             @elseif(Request::route('mode') == 'listeners')
                 @if($notify_access->count() > 0)
-                    <div class="row mb-5">
+                    <div class="row mb-5 p-fix">
                         @foreach($notify_access as $notify)
-                            <div class="card col-md-4">
+                            <div class="card col-md-3">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $notify->user->name }}</h5>
 
-                                    @foreach($notify->user->fastStat as $stat)
-                                        <ul class="list-unstyled mb-2">
-                                            @if($stat->account_mode == 1)
-                                                <li class="text-info">Статистика источника</li>
-                                            @elseif($stat->account_mode == 0)
-                                                <li class="text-info">Статистика слушателя</li>
-                                            @elseif($stat->account_mode == 2)
-                                                <li class="text-info">Статистика демо источника</li>
-                                            @elseif($stat->account_mode == 3)
-                                                <li class="text-info">Статистика демо слушателя</li>
-                                            @endif
-
-                                            <li class="text-success">Успешные {{ $stat->success_count }}</li>
-                                            <li class="text-danger">Проигрышные {{ $stat->loss_count }}</li>
-                                            <li class="text-dark">Возвраты {{ $stat->ret_count }}</li>
-                                            <li class="text-success">Заработал {{ $stat->win_sum / 100 }}</li>
-                                            <li class="text-danger">Проиграл {{ $stat->loss_sum / 100 }}</li>
-                                        </ul>
-                                    @endforeach
-
-                                    <a href="{{ route('profile', ['user_id' => $stat->user->id]) }}" class="card-link">В
+                                    <a href="{{ route('profile', ['user_id' => $notify->user_id]) }}" class="card-link">В
                                         профиль</a>
                                 </div>
                             </div>
@@ -108,7 +92,7 @@
                 @endif
             @elseif(Request::route('mode') == 'my_stat')
                 @if($user_stat != null && $user_stat->count() > 0)
-                    <div class="row mb-5">
+                    <div class="row mb-5 p-fix">
                         @foreach($user_stat as $stat)
                             <div class="card col-md-4">
                                 <div class="card-body">
@@ -156,13 +140,24 @@
                                         <li>Создана: {{ $stat->created_at }}</li>
                                         <li>Обновлена: {{ $stat->updated_at }}</li>
 
-                                        @if($stat->source)
-                                            <li>Статистика оповещения</li>
-                                            <li>Успешно {{ $stat->source->sourceStat->success_count }}</li>
-                                            <li>Проигрыш {{ $stat->source->sourceStat->loss_count }}</li>
-                                            <li>Возврат {{ $stat->source->sourceStat->ret_count }}</li>
-                                            <li>Заработали {{ $stat->source->sourceStat->win_sum / 100 }}</li>
-                                            <li>Проиграли {{ $stat->source->sourceStat->loss_sum / 100 }}</li>
+                                        @if($stat->sourceStat)
+                                            <div class="card mt-3">
+                                                <div class="card-body">
+                                                    <ul class="list-unstyled">
+                                                        <li>Статистика оповещения</li>
+                                                        <li class="text-success">
+                                                            Успешно {{ $stat->sourceStat->success_count }}</li>
+                                                        <li class="text-danger">
+                                                            Проигрыш {{ $stat->sourceStat->loss_count }}</li>
+                                                        <li>Возврат {{ $stat->sourceStat->ret_count }}</li>
+                                                        <li>Продажа {{ $stat->sourceStat->cancel_count }}</li>
+                                                        <li class="text-success">
+                                                            Заработали {{ $stat->sourceStat->win_sum / 100 }}</li>
+                                                        <li class="text-danger">
+                                                            Проиграли {{ $stat->sourceStat->loss_sum / 100 }}</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         @endif
                                     </ul>
                                 </div>
@@ -231,7 +226,7 @@
                                         </div>
                                     @endif
                                 @endforeach
-                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                                <button type="submit" class="btn btn-dark-primary">Сохранить</button>
                             </form>
                         </div>
                     </div>
@@ -244,12 +239,34 @@
                                 <div class="form-group">
                                     <label for="notify_id">Источник оповещений</label>
                                     <select class="form-control" name="notify_id" id="notify_id">
-                                        @foreach($notify_access as $notify)
-                                            <option value="{{ $notify->source->id }}">{{ $notify->source->name }}</option>
-                                        @endforeach
+                                        <?php
+                                        $notify_id = null;
+
+                                        foreach ($user_settings as $setting) {
+                                            if ($setting->name === 'notify_id') {
+                                                $notify_id = $setting->value;
+                                            }
+                                        }
+                                        ?>
+
+                                        @if($notify_id != null)
+                                            @foreach($notify_access as $notify)
+                                                @if($notify->source_id == $notify_id)
+                                                    <option value="{{ $notify->source->id }}"
+                                                            selected>{{ $notify->source->name }}</option>
+                                                @else
+                                                    <option value="{{ $notify->source->id }}">{{ $notify->source->name }}</option>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <option value="0" selected>Нет источника</option>
+                                            @foreach($notify_access as $notify)
+                                                <option value="{{ $notify->source->id }}">{{ $notify->source->name }}</option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                                <button type="submit" class="btn btn-dark-primary">Сохранить</button>
                             </form>
                         </div>
                     </div>
@@ -271,10 +288,13 @@
                                             @endif
                                         @endforeach
                                     </select>
-                                    <small class="form-text text-muted">Режим аккаунта можно менять 1 раз в 10 минут</small>
+                                    <small class="form-text text-muted">Режим аккаунта можно менять 1 раз в 10 минут
+                                    </small>
                                 </div>
-                                <div class="alert alert-danger" role="alert" style="display: none;" id="error_msg"></div>
-                                <button type="submit" class="btn btn-primary" id="save_account_mode">Сохранить</button>
+                                <div class="alert alert-danger" role="alert" style="display: none;"
+                                     id="error_msg"></div>
+                                <button type="submit" class="btn btn-dark-primary" id="save_account_mode">Сохранить
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -287,18 +307,24 @@
                 @endif
             @elseif(Request::route('mode') == 'my_balance')
                 @if($user_settings != null)
-                    <p>Баланс {{ $user_settings->value / 100 }} рублей</p>
-                    <form method="post" action="{{ route('edit_profile', ['mode' => 'balance']) }}" class="mb-5">
-                        {{ csrf_field() }}
-                        <div class="form-group">
-                            <label for="comment">Комментарий</label>
-                            <textarea type="text" class="form-control" name="comment" id="comment"
-                                      placeholder="Qiwi +79111111111"></textarea>
-                            <small class="form-text text-muted">Куда выводим</small>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Вывести</button>
-                    </form>
+                    <div class="card">
+                        <div class="card-header">Мой баланс</div>
+                        <div class="card-body">
+                            <p>{{ $user_settings->value / 100 }} рублей</p>
 
+                            <form method="post" action="{{ route('edit_profile', ['mode' => 'balance']) }}">
+                                {{ csrf_field() }}
+
+                                <div class="form-group">
+                                    <label for="comment">Комментарий</label>
+                                    <textarea type="text" class="form-control" name="comment" id="comment"
+                                              placeholder="Qiwi +79111111111"></textarea>
+                                    <small class="form-text text-muted">Куда выводим</small>
+                                </div>
+                                <button type="submit" class="btn btn-dark-primary">Вывести</button>
+                            </form>
+                        </div>
+                    </div>
                     <ul class="list-group">
                         @foreach($balance as $b)
                             <li class="list-group-item">
