@@ -1,10 +1,10 @@
 <?php
 
-Route::group(['middleware' => ['web', 'auth']], function () {
-    Route::get('/', function () {
-        return view('index');
-    });
+Route::get('/', function () {
+    return response(1);
+});
 
+Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/sources_list/{search_mode?}', 'SourcesListController@get')->name('sources_list');
 
     Route::get('/profile/{user_id}/{mode?}', 'ProfileController@get')->name('profile');
@@ -18,24 +18,24 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/ext_not_installed', 'ExtensionController@extNotInstalled');
 });
 
-Route::prefix('api/{api_token}')->group(function () {
-    Route::get('/getUser', 'Api\UserController@getUser')->middleware('auth.api');
+Route::group(['middleware' => ['auth:api'], 'prefix' => 'api'], function () {
+    Route::post('/getUser', 'Api\UserController@getUser');
 
-    Route::get('/changeAccountMode', 'Api\UserController@changeAccountMode')->middleware('auth.api', 'throttle:1,10');
+    Route::post('/changeAccountMode', 'Api\UserController@changeAccountMode')->middleware('throttle:1,10');
 
-    Route::get('/changeSource/{source_id?}', 'Api\UserController@changeSource')->middleware('auth.api');
+    Route::post('/changeSource/{source_id?}', 'Api\UserController@changeSource');
 
-    Route::get('/demo', 'Api\UserController@demo')->middleware('auth.api');
+    Route::post('/demo', 'Api\UserController@demo');
 
-    Route::get('/access', 'Api\UserController@access')->middleware('auth.api');
+    Route::post('/access', 'Api\UserController@access');
 
-    Route::get('/getNotify', 'Api\NotifyController@getNotify')->middleware('auth.api');
+    Route::get('/getNotify', 'Api\NotifyController@getNotify');
 
-    Route::post('/sendNotify', 'Api\NotifyController@sendNotify')->middleware('auth.api');
+    Route::post('/sendNotify', 'Api\NotifyController@sendNotify');
 
-    Route::post('/updateNotify', 'Api\NotifyController@updateNotify')->middleware('auth.api');
+    Route::post('/updateNotify', 'Api\NotifyController@updateNotify');
 
-    Route::post('/getSourceStat', 'Api\NotifyController@getSourceStat')->middleware('auth.api');
+    Route::post('/getSourceStat', 'Api\NotifyController@getSourceStat');
 });
 
 Auth::routes();

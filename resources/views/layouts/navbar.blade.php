@@ -24,6 +24,17 @@
             @endauth
         </ul>
         @auth
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Выход
+                    </a>
+
+                    <form id="logout-form" action="/logout" method="post" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
+                </li>
+            </ul>
         @else
             <ul class="navbar-nav">
                 <li class="nav-item">
