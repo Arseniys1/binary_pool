@@ -32,13 +32,15 @@
                                 @foreach($stat->user->settings as $setting)
                                     @if($setting->name == 'price')
                                         @if($setting->value != null)
-                                            <a href="#" class="card-link">Оповещения {{ $setting->value / 100 }}
+                                            <a href="{{ route('subscribe', ['user_id' => $stat->user->id]) }}" class="card-link">Оповещения {{ $setting->value / 100 }}
                                                 рублей</a>
                                         @endif
                                     @endif
                                 @endforeach
-                                <a href="{{ route('profile', ['user_id' => $stat->user->id]) }}" class="card-link">В
-                                    профиль</a>
+                                @auth
+                                    <a href="{{ route('profile', ['user_id' => $stat->user->id]) }}" class="card-link">В
+                                        профиль</a>
+                                @endauth
                             </div>
                         </div>
                     @endif

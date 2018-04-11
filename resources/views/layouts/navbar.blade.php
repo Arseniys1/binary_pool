@@ -6,11 +6,11 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('sources_list', ['search_mode' => 'source']) }}">Статистика
+                    источников</a>
+            </li>
             @auth
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('sources_list', ['search_mode' => 'source']) }}">Статистика
-                        источников</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('profile', ['user_id' => Auth::user()->id]) }}">Мой профиль</a>
                 </li>
