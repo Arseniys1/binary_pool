@@ -42,6 +42,7 @@ class ProfileController extends Controller
         } elseif ($request->route('mode') == 'my_balance' && Auth::user()->id == $request->route('user_id')) {
             $user_settings = Auth::user()->settings()
                 ->where('name', '=', 'balance')
+                ->where('user_id', '=', Auth::user()-id)
                 ->first();
 
             $balance = Balance::where('user_id', '=', Auth::user()->id)
