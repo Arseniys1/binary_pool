@@ -132,13 +132,14 @@
                                         @elseif($stat->status == 0)
                                             <li class="text-danger">Статус: Проигрыш</li>
                                         @elseif($stat->status == 2)
-                                            <li class="text-dark">Статус: Возврат</li>
+                                            <li class="">Статус: Возврат</li>
+                                        @elseif($stat->status == 4)
+                                            <li class="">Статус: Продажа</li>
                                         @elseif($stat->status == 3)
-                                            <li class="text-dark">Статус: Нет статуса</li>
+                                            <li class="">Статус: Нет статуса</li>
                                         @endif
 
                                         <li>Валютная пара: {{ $stat->cur_pair }}</li>
-                                        <li>Валюта сделки: {{ $stat->cur }}</li>
 
                                         @if($stat->demo == 1)
                                             <li>Демо</li>
