@@ -18,7 +18,4 @@ class ExtensionController extends Controller
         return redirect()->route('ext');
     }
 
-    public function extNotInstalled(Request $request) {
-        return response(1);
-    }
 }

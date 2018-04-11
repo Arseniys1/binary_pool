@@ -9,7 +9,7 @@ $save_account_mode.click((event) => {
 
     if (account_mode_value === $account_mode.val()) return;
 
-    $.get('/api/' + api_token + '/changeAccountMode', (response) => {
+    $.post('/api/changeAccountMode', {api_token: api_token}, (response) => {
         response = JSON.parse(response);
 
         if (response.success) {

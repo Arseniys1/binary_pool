@@ -1,7 +1,15 @@
 <?php
 
 Route::get('/', function () {
-    return response(1);
+    return view('index');
+});
+
+Route::get('/how_to_receive_signals', function () {
+    return view('how_to_receive_signals');
+});
+
+Route::get('/ext_not_installed', function () {
+    return view('ext_not_installed');
 });
 
 Route::group(['middleware' => ['web', 'auth']], function () {
@@ -14,8 +22,6 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/ext', 'ExtensionController@get')->name('ext');
 
     Route::post('/ext', 'ExtensionController@post')->name('change_api_token');
-
-    Route::get('/ext_not_installed', 'ExtensionController@extNotInstalled');
 });
 
 Route::group(['middleware' => ['auth:api'], 'prefix' => 'api'], function () {
@@ -29,7 +35,7 @@ Route::group(['middleware' => ['auth:api'], 'prefix' => 'api'], function () {
 
     Route::post('/access', 'Api\UserController@access');
 
-    Route::get('/getNotify', 'Api\NotifyController@getNotify');
+    Route::post('/getNotify', 'Api\NotifyController@getNotify');
 
     Route::post('/sendNotify', 'Api\NotifyController@sendNotify');
 
