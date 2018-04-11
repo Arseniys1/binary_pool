@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('api_token')->nullable();
+            $table->timestamp('last_online')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
         });
     }

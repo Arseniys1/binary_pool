@@ -263,15 +263,59 @@
                                             @foreach($notify_access as $notify)
                                                 @if($notify->source_id == $notify_id)
                                                     <option value="{{ $notify->source->id }}"
-                                                            selected>{{ $notify->source->name }}</option>
+                                                            selected>{{ $notify->source->name }} |
+                                                        Статус:
+                                                        @if($notify->status == 1)
+                                                            Активна
+                                                        @elseif($notify->status == 0)
+                                                            Истекла
+                                                        @endif
+                                                         |
+                                                        Тип:
+                                                        @if($notify->access_type == 0)
+                                                            Перманентная
+                                                        @elseif($notify->access_type == 1)
+                                                            Ограниченная | Истекает {{ $notify->end_at }}
+                                                        @endif
+                                                    </option>
                                                 @else
-                                                    <option value="{{ $notify->source->id }}">{{ $notify->source->name }}</option>
+                                                    <option value="{{ $notify->source->id }}">
+                                                        {{ $notify->source->name }} |
+                                                        Статус:
+                                                        @if($notify->status == 1)
+                                                            Активна
+                                                        @elseif($notify->status == 0)
+                                                            Истекла
+                                                        @endif
+                                                        |
+                                                        Тип:
+                                                        @if($notify->access_type == 0)
+                                                            Перманентная
+                                                        @elseif($notify->access_type == 1)
+                                                            Ограниченная | Истекает {{ $notify->end_at }}
+                                                        @endif
+                                                    </option>
                                                 @endif
                                             @endforeach
                                         @else
                                             <option value="0" selected>Нет источника</option>
                                             @foreach($notify_access as $notify)
-                                                <option value="{{ $notify->source->id }}">{{ $notify->source->name }}</option>
+                                                <option value="{{ $notify->source->id }}">
+                                                    {{ $notify->source->name }} |
+                                                    Статус:
+                                                    @if($notify->status == 1)
+                                                        Активна
+                                                    @elseif($notify->status == 0)
+                                                        Истекла
+                                                    @endif
+                                                    |
+                                                    Тип:
+                                                    @if($notify->access_type == 0)
+                                                        Перманентная
+                                                    @elseif($notify->access_type == 1)
+                                                        Ограниченная | Истекает {{ $notify->end_at }}
+                                                    @endif
+                                                </option>
                                             @endforeach
                                         @endif
                                     </select>

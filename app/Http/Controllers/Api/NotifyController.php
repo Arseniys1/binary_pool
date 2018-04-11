@@ -19,7 +19,7 @@ class NotifyController extends ApiController
 
         if (!$notify_expired[0]) {
             return $this->error_response($notify_expired[1]);
-        } elseif (!$this->modeSource()) {
+        } elseif ($this->modeSource()) {
             return $this->error_response('mode source');
         }
 
@@ -260,7 +260,11 @@ class NotifyController extends ApiController
 
     private function notifyExpired()
     {
-        $source_id = Auth::user()->settings()->where('name', '=', 'notify_id')->first()->value;
+        $source_id = Auth::user()->settings()
+            ->where('name', '=', 'notify_id')
+            ->where('user_id', '=', Auth::user()->id)
+            ->first()
+            ->value;
 
         if ($source_id == null) {
             return [
@@ -272,6 +276,7 @@ class NotifyController extends ApiController
         $notify_access = Auth::user()->notifyAccess()
             ->where('source_id', '=', $source_id)
             ->where('status', '=', NotifyAccess::ACTIVE_STATUS)
+            ->where('user_id', '=', Auth::user()->id)
             ->first();
 
         if ($notify_access == null) {
@@ -295,12 +300,17 @@ class NotifyController extends ApiController
     }
 
     private function modeSource() {
-        $account_mode = Auth::user()->settings()->where('name', '=', 'account_mode')->first()->value;
+        $account_mode = Auth::user()
+            ->settings()
+            ->where('name', '=', 'account_mode')
+            ->where('user_id', '=', Auth::user()->id)
+            ->first()
+            ->value;
 
         if ($account_mode == User::SOURCE_MODE) {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 }

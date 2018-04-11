@@ -59,6 +59,8 @@ class User extends Authenticatable
     }
 
     public function showStats() {
-        return $this->belongsToMany('App\Models\UserStat', 'show_statistics', 'user_id', 'stat_id')->withPivot('id', 'status');
+        return $this->belongsToMany('App\Models\UserStat', 'show_statistics', 'user_id', 'stat_id')
+            ->wherePivot('user_id', $this->id)
+            ->withPivot('id', 'status');
     }
 }

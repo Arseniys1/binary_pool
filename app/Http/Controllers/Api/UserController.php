@@ -9,15 +9,18 @@ use App\Models\NotifyAccess;
 class UserController extends ApiController
 {
     public function getUser(Request $request) {
-        return $this->success_response(Auth::user()->with('settings')->first());
+        return $this->success_response(Auth::user()->load('settings'));
     }
 
     public function changeAccountMode() {
-        $account_mode = Auth::user()->settings()->where('name', '=', 'account_mode')->first();
+        $account_mode = Auth::user()
+            ->settings()
+            ->where('name', '=', 'account_mode')
+            ->first();
         $account_mode->value = !$account_mode->value;
         $account_mode->save();
 
-        return $this->success_response(Auth::user()->with('settings')->get());
+        return $this->success_response(Auth::user()->load('settings'));
     }
 
     public function changeSource(Request $request) {
@@ -43,7 +46,7 @@ class UserController extends ApiController
             $setting_notify_id->save();
         }
 
-        return $this->success_response(Auth::user()->with('settings')->get());
+        return $this->success_response(Auth::user()->load('settings'));
     }
 
     public function demo(Request $request) {
@@ -51,7 +54,7 @@ class UserController extends ApiController
         $demo->value = !$demo->value;
         $demo->save();
 
-        return $this->success_response(Auth::user()->with('settings')->first());
+        return $this->success_response(Auth::user()->load('settings'));
     }
 
     public function access(Request $request) {
