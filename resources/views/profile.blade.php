@@ -34,6 +34,15 @@
                                     href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'my_settings']) }}">Мои
                                 настройки</a>
                         </li>
+                    @else
+                        @foreach($user->settings as $setting)
+                            @if($setting->name == 'price')
+                                @if($setting->value != null)
+                                    <li class="list-inline-item"><a
+                                                href="#">Оповещения {{ $setting->value / 100 }} рублей</a></li>
+                                @endif
+                            @endif
+                        @endforeach
                     @endif
                 </ul>
             </div>
