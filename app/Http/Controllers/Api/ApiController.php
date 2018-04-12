@@ -13,13 +13,17 @@ class ApiController extends Controller
 {
     public function __construct()
     {
-        Auth::login(
-            User::where('api_token', '=', RequestFacade::input('api_token'))->first()
-        );
+        if (RequestFacade::has('api_token')) {
+            $user = User::where('api_token', '=', RequestFacade::input('api_token'))->first();
 
-        // Авторизация пользователя для api, если это не сделать будет Auth::user() null
+            if ($user != null) {
+                Auth::login($user);
 
-        $this->updateLastOnline();
+                // Авторизация пользователя для api, если это не сделать будет Auth::user() null
+
+                $this->updateLastOnline();
+            }
+        }
     }
 
     private function updateLastOnline() {
