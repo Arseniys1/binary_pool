@@ -50,8 +50,6 @@ Route::group(['middleware' => ['auth:api'], 'prefix' => 'api'], function () {
     Route::post('/getSourceStat', 'Api\NotifyController@getSourceStat');
 });
 
-//
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
