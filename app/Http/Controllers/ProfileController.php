@@ -42,7 +42,7 @@ class ProfileController extends Controller
         } elseif ($request->route('mode') == 'my_balance' && Auth::user()->id == $request->route('user_id')) {
             $user_settings = Auth::user()->settings()
                 ->where('name', '=', 'balance')
-                ->where('user_id', '=', Auth::user()-id)
+                ->where('user_id', '=', Auth::user()->id)
                 ->first();
 
             $balance = Balance::where('user_id', '=', Auth::user()->id)
@@ -125,6 +125,8 @@ class ProfileController extends Controller
                 ])->withErrors($v->errors());
             }
 
+            $this->notifyExpired();
+
             $notify_access = NotifyAccess::where('source_id', '=', $request->input('notify_id'))
                 ->where('user_id', '=', Auth::user()->id)
                 ->where('status', '=', NotifyAccess::ACTIVE_STATUS)
@@ -189,6 +191,29 @@ class ProfileController extends Controller
                 'user_id' => Auth::user()->id,
                 'mode' => 'my_balance',
             ]);
+        }
+    }
+
+    private function notifyExpired() {
+        $notify_access = NotifyAccess::where('user_id', '=', Auth::user()->id)
+            ->where('status', '=', NotifyAccess::ACTIVE_STATUS)
+            ->get();
+
+        $source_id = Auth::user()->settings()
+            ->where('name', '=', 'notify_id')
+            ->where('user_id', '=', Auth::user()->id)
+            ->first();
+
+        foreach ($notify_access as $notify) {
+            if ($notify->access_type == NotifyAccess::LIMITED_ACCESS && strtotime($notify->end_at) <= time()) {
+                $notify->status = NotifyAccess::EXPIRED_STATUS;
+                $notify->save();
+
+                if ($source_id->value == $notify->source_id) {
+                    $source_id->value = null;
+                    $source_id->save();
+                }
+            }
         }
     }
 

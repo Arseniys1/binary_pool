@@ -263,8 +263,7 @@ class NotifyController extends ApiController
         $source_id = Auth::user()->settings()
             ->where('name', '=', 'notify_id')
             ->where('user_id', '=', Auth::user()->id)
-            ->first()
-            ->value;
+            ->first();
 
         if ($source_id == null) {
             return [
@@ -274,7 +273,7 @@ class NotifyController extends ApiController
         }
 
         $notify_access = Auth::user()->notifyAccess()
-            ->where('source_id', '=', $source_id)
+            ->where('source_id', '=', $source_id->value)
             ->where('status', '=', NotifyAccess::ACTIVE_STATUS)
             ->where('user_id', '=', Auth::user()->id)
             ->first();
@@ -287,6 +286,9 @@ class NotifyController extends ApiController
         } elseif ($notify_access->access_type == NotifyAccess::LIMITED_ACCESS && strtotime($notify_access->end_at) <= time()) {
             $notify_access->status = NotifyAccess::EXPIRED_STATUS;
             $notify_access->save();
+
+            $source_id->value = null;
+            $source_id->save();
 
             return [
                 false,
