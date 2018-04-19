@@ -39,7 +39,8 @@
                             @if($setting->name == 'price')
                                 @if($setting->value != null)
                                     <li class="list-inline-item"><a
-                                                href="#">Оповещения {{ $setting->value / 100 }} рублей</a></li>
+                                                href="{{ route('subscribe', ['user_id' => $user->id]) }}">Оповещения {{ $setting->value / 100 }}
+                                            рублей</a></li>
                                 @endif
                             @endif
                         @endforeach
@@ -249,7 +250,8 @@
 
                                 <div class="form-group">
                                     <label for="api_token">Api token</label>
-                                    <input type="password" class="form-control" name="api_token" id="api_token" value="{{ Auth::user()->api_token }}" disabled>
+                                    <input type="password" class="form-control" name="api_token" id="api_token"
+                                           value="{{ Auth::user()->api_token }}" disabled>
                                     <a href="#" id="show_api_token">Показать</a>
                                 </div>
                                 <button type="submit" class="btn btn-dark-primary">Создать новый</button>

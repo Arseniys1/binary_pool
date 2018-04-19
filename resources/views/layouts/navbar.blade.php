@@ -13,6 +13,9 @@
                 <a class="nav-link" href="{{ route('sources_list', ['search_mode' => 'source']) }}">Статистика
                     источников</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('/service_and_contacts') }}">Услуги и контакты</a>
+            </li>
             @auth
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('my_access') }}">Мои подписки</a>

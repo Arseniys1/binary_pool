@@ -10,6 +10,10 @@ Route::get('/how_to_receive_signals', function () {
 
 Route::get('/sources_list/{search_mode?}', 'SourcesListController@get')->name('sources_list');
 
+Route::get('/service_and_contacts', function () {
+    return view('service_and_contacts');
+});
+
 Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/profile/{user_id}/{mode?}', 'ProfileController@get')->name('profile');
 
