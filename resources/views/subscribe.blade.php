@@ -40,7 +40,14 @@
                         <p>Продолжительность подписки: {{ $days }} дней</p>
                     @endif
 
-                    <form method="get" action="{{ route('subscribe_go', ['user_id' => $user->id]) }}">
+                    <form method="post" action="https://wl.walletone.com/checkout/checkout/Index">
+                        <input type="hidden" name="WMI_MERCHANT_ID" value="173762429793"/>
+                        <input type="hidden" name="WMI_PAYMENT_NO" value="{{ $payment->id }}"/>
+                        <input type="hidden" name="WMI_PAYMENT_AMOUNT" value="{{ sprintf('%.2f', $price / 100) }}"/>
+                        <input type="hidden" name="WMI_CURRENCY_ID" value="643"/>
+                        <input type="hidden" name="WMI_DESCRIPTION" value="Подписка на пользователя {{ $user->name }}"/>
+                        <input type="hidden" name="WMI_CULTURE_ID" value="ru-RU"/>
+
                         <button type="submit" class="btn btn-dark-primary">Купить оповещения</button>
                     </form>
                 </div>

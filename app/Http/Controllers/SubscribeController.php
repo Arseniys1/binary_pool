@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Models\Payment;
+use Auth;
 
 class SubscribeController extends Controller
 {
@@ -16,29 +18,9 @@ class SubscribeController extends Controller
             return view('subscribe')->withErrors([
                 'Пользователь не найден',
             ]);
-        }
-
-        foreach ($user->settings as $setting) {
-            if ($setting->name == 'price' && $setting->value == null) {
-                return view('subscribe')->withErrors([
-                    'У пользователя отключена покупка оповещений',
-                ]);
-            }
-        }
-
-        return view('subscribe')->with([
-            'user' => $user,
-        ]);
-    }
-
-    public function subscribeGo(Request $request) {
-        $user = User::where('id', '=', $request->route('user_id'))
-            ->with('settings')
-            ->first();
-
-        if ($user == null) {
+        } else if (Auth::user()->id == $request->route('user_id')) {
             return view('subscribe')->withErrors([
-                'Пользователь не найден',
+                'Вы не можете подписаться на себя',
             ]);
         }
 
@@ -50,6 +32,25 @@ class SubscribeController extends Controller
             }
         }
 
-        return response('Redirecting to payment system');
+        $payment = new Payment;
+        $payment->user_id = Auth::user()->id;
+        $payment->source_id = $request->route('user_id');
+
+        foreach ($user->settings as $setting) {
+            if ($setting->name == 'price') {
+                $payment->price = $setting->value;
+            } else if ($setting->name == 'days') {
+                $payment->days = $setting->value;
+            } else if ($setting->name == 'forever') {
+                $payment->forever = $setting->value;
+            }
+        }
+
+        $payment->save();
+
+        return view('subscribe')->with([
+            'user' => $user,
+            'payment' => $payment,
+        ]);
     }
 }

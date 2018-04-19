@@ -21,8 +21,6 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
     Route::get('/subscribe/{user_id}', 'SubscribeController@get')->name('subscribe');
 
-    Route::get('/subscribe/go/{user_id}', 'SubscribeController@subscribeGo')->name('subscribe_go');
-
     Route::get('/my_access', 'MyAccessController@get')->name('my_access');
 });
 

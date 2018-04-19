@@ -104,6 +104,7 @@ class RegisterController extends Controller
         UserSetting::create([
             'user_id' => $user->id,
             'name' => 'days',
+            'value' => '1',
         ]);
 
         UserSetting::create([
