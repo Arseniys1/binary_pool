@@ -21,7 +21,7 @@ class PaymentController extends Controller
             ->where('name', '=', 'balance')
             ->first();
 
-        $sum = intval($request->input('WMI_PAYMENT_AMOUNT')) - intval($request->input('WMI_COMMISSION_AMOUNT')) * 100;
+        $sum = ($request->input('WMI_PAYMENT_AMOUNT') - $request->input('WMI_COMMISSION_AMOUNT')) * 100;
 
         $balance->value += $sum;
         $balance->save();
