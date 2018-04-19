@@ -30,12 +30,12 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/my_access', 'MyAccessController@get')->name('my_access');
 });
 
-Route::group(['middleware' => ['auth:api'], 'prefix' => 'api'], function () {
+Route::group(['middleware' => ['auth:api', 'api.headers'], 'prefix' => 'api'], function () {
     Route::post('/getUser', 'Api\UserController@getUser');
 
-    Route::post('/changeAccountMode', 'Api\UserController@changeAccountMode')->middleware('throttle:1,10');
+    Route::post('/changeAccountMode', 'Api\UserController@changeAccountMode');
 
-    Route::post('/changeSource/{source_id?}', 'Api\UserController@changeSource');
+    Route::post('/changeSource', 'Api\UserController@changeSource');
 
     Route::post('/demo', 'Api\UserController@demo');
 

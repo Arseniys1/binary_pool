@@ -118,7 +118,11 @@ class NotifyController extends ApiController
             $stat->save();
         }
 
-        $stat = UserStat::find($stat->id);
+        if ($stat->account_mode === User::SOURCE_MODE) {
+            $stat = UserStat::find($stat->id)->load('user', 'sourceStat');
+        } else if ($stat->account_mode === User::LISTENER_MODE) {
+            $stat = UserStat::find($stat->id)->load('user');
+        }
 
         return $this->success_response($stat);
     }
@@ -154,7 +158,11 @@ class NotifyController extends ApiController
 
         DB::table('show_statistics')->insert($show_statistics);
 
-        $stat = UserStat::find($stat->id);
+        if ($stat->account_mode === User::SOURCE_MODE) {
+            $stat = UserStat::find($stat->id)->load('user', 'sourceStat');
+        } else if ($stat->account_mode === User::LISTENER_MODE) {
+            $stat = UserStat::find($stat->id)->load('user');
+        }
 
         return $this->success_response($stat);
     }
@@ -172,16 +180,10 @@ class NotifyController extends ApiController
         $user_stats = UserStat::whereIn('id', $request->input('stat_ids'))
             ->where('user_id', '=', Auth::user()->id)
             ->where('account_mode', '=', User::SOURCE_MODE)
-            ->with('sourceStat')
+            ->with('user', 'sourceStat')
             ->get();
 
-        $source_stats = [];
-
-        foreach ($user_stats as $user_stat) {
-            $source_stats[] = $user_stat->sourceStat;
-        }
-
-        return $this->success_response($source_stats);
+        return $this->success_response($user_stats);
     }
 
     private function getSourceListenersToInsert($stat_id, $status) {

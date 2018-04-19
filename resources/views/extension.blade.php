@@ -25,5 +25,5 @@
     <script type="text/javascript">
         window.user = '{!! json_encode(Auth::user()->with('settings')->find(Auth::user()->id)) !!}';
     </script>
-    <script src="{{ asset('js/extension.js') }}"></script>
+    {{--<script src="{{ asset('js/extension.js') }}"></script>--}}
 @stop

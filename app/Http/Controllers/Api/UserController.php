@@ -24,8 +24,8 @@ class UserController extends ApiController
     }
 
     public function changeSource(Request $request) {
-        if ($request->route('source_id') != null) {
-            $notify_access = Auth::user()->notifyAccess()->where('source_id', '=', $request->route('source_id'))
+        if ($request->input('source_id') != null) {
+            $notify_access = Auth::user()->notifyAccess()->where('source_id', '=', $request->input('source_id'))
                 ->where('status', '=', NotifyAccess::ACTIVE_STATUS)
                 ->first();
 
@@ -60,6 +60,7 @@ class UserController extends ApiController
     public function access(Request $request) {
         return $this->success_response(Auth::user()
             ->notifyAccess()
+            ->where('user_id', '=', Auth::user()->id)
             ->with('source')
             ->orderBy('id', 'desc')
             ->limit(10)
