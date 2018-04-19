@@ -4,8 +4,68 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d5bca48e56bbf3a25645858fcab9c285",
+    "content-hash": "39e7b632e50c6219a333c8e6fea9d195",
     "packages": [
+        {
+            "name": "arseniys1/laravel-opcache",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Arseniys1/laravel-opcache.git",
+                "reference": "bbc170a5c2c4d18eacf54db991f24b63ca396db4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Arseniys1/laravel-opcache/zipball/bbc170a5c2c4d18eacf54db991f24b63ca396db4",
+                "reference": "bbc170a5c2c4d18eacf54db991f24b63ca396db4",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": ">=5.5",
+                "illuminate/filesystem": ">=5.5",
+                "illuminate/routing": ">=5.5",
+                "illuminate/support": ">=5.5",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.3",
+                "phpunit/phpunit": "5.*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Arseniys1\\Opcache\\OpcacheServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Arseniys1\\Opcache\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Olav van Schie",
+                    "email": "hello@appstract.team",
+                    "homepage": "https://appstract.team",
+                    "role": "Developer"
+                }
+            ],
+            "description": "OPcache helper for Laravel.",
+            "homepage": "https://github.com/Arseniys1/laravel-opcache",
+            "keywords": [
+                "Opcache",
+                "appstract",
+                "laravel",
+                "php"
+            ],
+            "time": "2018-04-12T16:59:03+00:00"
+        },
         {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "0.1",
@@ -3968,7 +4028,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "arseniys1/laravel-opcache": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
