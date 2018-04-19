@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Arseniys1/laravel-opcache.git",
-                "reference": "bbc170a5c2c4d18eacf54db991f24b63ca396db4"
+                "reference": "b8aba834edceda583949165a96bfa7e2f2afb30c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Arseniys1/laravel-opcache/zipball/bbc170a5c2c4d18eacf54db991f24b63ca396db4",
-                "reference": "bbc170a5c2c4d18eacf54db991f24b63ca396db4",
+                "url": "https://api.github.com/repos/Arseniys1/laravel-opcache/zipball/b8aba834edceda583949165a96bfa7e2f2afb30c",
+                "reference": "b8aba834edceda583949165a96bfa7e2f2afb30c",
                 "shasum": ""
             },
             "require": {
@@ -64,7 +64,7 @@
                 "laravel",
                 "php"
             ],
-            "time": "2018-04-12T16:59:03+00:00"
+            "time": "2018-04-19T10:21:22+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",

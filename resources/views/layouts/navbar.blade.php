@@ -1,5 +1,8 @@
 <nav class="navbar navbar-expand-lg darkness mb-5">
-    <a class="navbar-brand" href="/">Binary Pool</a>
+    <a class="navbar-brand" href="/">
+        <img src="{{ asset('binary-pool-no-fon.png') }}" alt="Binary Pool">
+        Binary Pool
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fa fa-bars" aria-hidden="true"></i>

@@ -69,3 +69,7 @@ body {
     background-color: #1b4c84;
     border-color: #1b4c84;
 }
+
+.navbar-brand img {
+    height: 24px;
+}

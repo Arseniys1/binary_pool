@@ -57,7 +57,7 @@ class ProfileController extends Controller
             'user_stat' => $user_stat,
             'user_settings' => $user_settings,
             'balance' => $balance,
-            'title' => 'Профиль' . $user->name,
+            'title' => 'Профиль ' . $user->name,
         ]);
     }
 
