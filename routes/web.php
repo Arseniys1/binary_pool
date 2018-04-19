@@ -14,6 +14,8 @@ Route::get('/service_and_contacts', function () {
     return view('service_and_contacts');
 });
 
+Route::post('/payment', 'PaymentController@post');
+
 Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/profile/{user_id}/{mode?}', 'ProfileController@get')->name('profile');
 
