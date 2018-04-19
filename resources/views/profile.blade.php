@@ -240,123 +240,23 @@
                             </form>
                         </div>
                     </div>
-                    <div class="card mb-3">
-                        <div class="card-header">Источник оповещений</div>
+
+                    <div class="card mb-5">
+                        <div class="card-header">Api token</div>
                         <div class="card-body">
-                            <form method="post" action="{{ route('edit_profile', ['mode' => 'notify_id']) }}">
+                            <form method="post" action="{{ route('edit_profile', ['mode' => 'api_token']) }}">
                                 {{ csrf_field() }}
 
                                 <div class="form-group">
-                                    <label for="notify_id">Источник оповещений</label>
-                                    <select class="form-control" name="notify_id" id="notify_id">
-                                        <?php
-                                        $notify_id = null;
-
-                                        foreach ($user_settings as $setting) {
-                                            if ($setting->name === 'notify_id') {
-                                                $notify_id = $setting->value;
-                                            }
-                                        }
-                                        ?>
-
-                                        @if($notify_id != null)
-                                            @foreach($notify_access as $notify)
-                                                @if($notify->source_id == $notify_id)
-                                                    <option value="{{ $notify->source->id }}"
-                                                            selected>{{ $notify->source->name }} |
-                                                        Статус:
-                                                        @if($notify->status == 1)
-                                                            Активна
-                                                        @elseif($notify->status == 0)
-                                                            Истекла
-                                                        @endif
-                                                         |
-                                                        Тип:
-                                                        @if($notify->access_type == 0)
-                                                            Перманентная
-                                                        @elseif($notify->access_type == 1)
-                                                            Ограниченная | Истекает {{ $notify->end_at }}
-                                                        @endif
-                                                    </option>
-                                                @else
-                                                    <option value="{{ $notify->source->id }}">
-                                                        {{ $notify->source->name }} |
-                                                        Статус:
-                                                        @if($notify->status == 1)
-                                                            Активна
-                                                        @elseif($notify->status == 0)
-                                                            Истекла
-                                                        @endif
-                                                        |
-                                                        Тип:
-                                                        @if($notify->access_type == 0)
-                                                            Перманентная
-                                                        @elseif($notify->access_type == 1)
-                                                            Ограниченная | Истекает {{ $notify->end_at }}
-                                                        @endif
-                                                    </option>
-                                                @endif
-                                            @endforeach
-                                        @else
-                                            <option value="0" selected>Нет источника</option>
-                                            @foreach($notify_access as $notify)
-                                                <option value="{{ $notify->source->id }}">
-                                                    {{ $notify->source->name }} |
-                                                    Статус:
-                                                    @if($notify->status == 1)
-                                                        Активна
-                                                    @elseif($notify->status == 0)
-                                                        Истекла
-                                                    @endif
-                                                    |
-                                                    Тип:
-                                                    @if($notify->access_type == 0)
-                                                        Перманентная
-                                                    @elseif($notify->access_type == 1)
-                                                        Ограниченная | Истекает {{ $notify->end_at }}
-                                                    @endif
-                                                </option>
-                                            @endforeach
-                                        @endif
-                                    </select>
+                                    <label for="api_token">Api token</label>
+                                    <input type="password" class="form-control" name="api_token" id="api_token" value="{{ Auth::user()->api_token }}" disabled>
+                                    <a href="#" id="show_api_token">Показать</a>
                                 </div>
-                                <button type="submit" class="btn btn-dark-primary">Сохранить</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">Режим аккаунта</div>
-                        <div class="card-body">
-                            <form>
-                                {{ csrf_field() }}
-
-                                <div class="form-group">
-                                    <select class="form-control" name="account_mode" id="account_mode">
-                                        @foreach($user_settings as $setting)
-                                            @if($setting->name == 'account_mode' && $setting->value == 0)
-                                                <option value="0" selected>Слушатель</option>
-                                                <option value="1">Источник</option>
-                                            @elseif($setting->name == 'account_mode' && $setting->value == 1)
-                                                <option value="0">Слушатель</option>
-                                                <option value="1" selected>Источник</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                    <small class="form-text text-muted">Режим аккаунта можно менять 1 раз в 10 минут
-                                    </small>
-                                </div>
-                                <div class="alert alert-danger" role="alert" style="display: none;"
-                                     id="error_msg"></div>
-                                <button type="submit" class="btn btn-dark-primary" id="save_account_mode">Сохранить
-                                </button>
+                                <button type="submit" class="btn btn-dark-primary">Создать новый</button>
                             </form>
                         </div>
                     </div>
 
-                    <script type="text/javascript">
-                        window.api_token = '{!! Auth::user()->api_token !!}';
-                        window.user = '{!! json_encode($user) !!}'
-                    </script>
                     <script src="{{ asset('js/my_settings.js') }}"></script>
                 @endif
             @elseif(Request::route('mode') == 'my_balance')

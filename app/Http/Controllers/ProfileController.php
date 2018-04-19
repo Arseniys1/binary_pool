@@ -113,42 +113,6 @@ class ProfileController extends Controller
                 'user_id' => Auth::user()->id,
                 'mode' => 'my_settings',
             ]);
-        } elseif ($request->route('mode') == 'notify_id') {
-            $v = Validator::make($request->all(), [
-                'notify_id' => 'required|integer',
-            ]);
-
-            if ($v->fails()) {
-                return redirect()->route('profile', [
-                    'user_id' => Auth::user()->id,
-                    'mode' => 'my_settings',
-                ])->withErrors($v->errors());
-            }
-
-            $this->notifyExpired();
-
-            $notify_access = NotifyAccess::where('source_id', '=', $request->input('notify_id'))
-                ->where('user_id', '=', Auth::user()->id)
-                ->where('status', '=', NotifyAccess::ACTIVE_STATUS)
-                ->first();
-
-            if ($notify_access == null) {
-                return redirect()->route('profile', [
-                    'user_id' => Auth::user()->id,
-                    'mode' => 'my_settings',
-                ])->withErrors(['Подписка не найдена или истекла']);
-            }
-
-            $notify_id = UserSetting::where('user_id', '=', Auth::user()->id)
-                ->where('name', '=', 'notify_id')
-                ->first();
-            $notify_id->value = $notify_access->source_id;
-            $notify_id->save();
-
-            return redirect()->route('profile', [
-                'user_id' => Auth::user()->id,
-                'mode' => 'my_settings',
-            ]);
         } elseif ($request->route('mode') == 'balance') {
             $v = Validator::make($request->all(), [
                 'comment' => 'required|string',
@@ -191,29 +155,14 @@ class ProfileController extends Controller
                 'user_id' => Auth::user()->id,
                 'mode' => 'my_balance',
             ]);
-        }
-    }
+        } elseif ($request->route('mode') == 'api_token') {
+            Auth::user()->api_token = str_random(32);
+            Auth::user()->save();
 
-    private function notifyExpired() {
-        $notify_access = NotifyAccess::where('user_id', '=', Auth::user()->id)
-            ->where('status', '=', NotifyAccess::ACTIVE_STATUS)
-            ->get();
-
-        $source_id = Auth::user()->settings()
-            ->where('name', '=', 'notify_id')
-            ->where('user_id', '=', Auth::user()->id)
-            ->first();
-
-        foreach ($notify_access as $notify) {
-            if ($notify->access_type == NotifyAccess::LIMITED_ACCESS && strtotime($notify->end_at) <= time()) {
-                $notify->status = NotifyAccess::EXPIRED_STATUS;
-                $notify->save();
-
-                if ($source_id->value == $notify->source_id) {
-                    $source_id->value = null;
-                    $source_id->save();
-                }
-            }
+            return redirect()->route('profile', [
+                'user_id' => Auth::user()->id,
+                'mode' => 'my_settings',
+            ]);
         }
     }
 

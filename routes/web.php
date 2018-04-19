@@ -8,20 +8,12 @@ Route::get('/how_to_receive_signals', function () {
     return view('how_to_receive_signals');
 });
 
-Route::get('/ext_not_installed', function () {
-    return view('ext_not_installed');
-});
-
 Route::get('/sources_list/{search_mode?}', 'SourcesListController@get')->name('sources_list');
 
 Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/profile/{user_id}/{mode?}', 'ProfileController@get')->name('profile');
 
     Route::post('/profile/{mode}', 'ProfileController@post')->name('edit_profile');
-
-    Route::get('/ext', 'ExtensionController@get')->name('ext');
-
-    Route::post('/ext', 'ExtensionController@post')->name('change_api_token');
 
     Route::get('/subscribe/{user_id}', 'SubscribeController@get')->name('subscribe');
 
@@ -52,4 +44,3 @@ Route::group(['middleware' => ['auth:api', 'api.headers'], 'prefix' => 'api'], f
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');

@@ -26,9 +26,6 @@
                     <a class="nav-link"
                        href="{{ route('profile', ['user_id' => Auth::user()->id, 'mode' => 'my_settings']) }}">Настройки</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('ext') }}">Расширение</a>
-                </li>
             @else
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/how_to_receive_signals') }}">Как получать сигналы?</a>
