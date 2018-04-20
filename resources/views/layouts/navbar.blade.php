@@ -13,7 +13,7 @@
                 <a class="nav-link" href="{{ route('sources_list', ['search_mode' => 'source']) }}">Источники оповещений</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('/service_and_contacts') }}">Услуги и контакты</a>
+                <a class="nav-link" href="{{ url('/about_service') }}">О сервисе</a>
             </li>
             @auth
                 <li class="nav-item">
