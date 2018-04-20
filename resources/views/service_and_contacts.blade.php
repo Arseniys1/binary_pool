@@ -7,6 +7,7 @@
             <p>Мы предоставляем только информационные услуги о валютной паре,
                 направлении сделки, сумме, и моменте времени когда нужно произвести сделку.
             </p>
+            <p>Покупая подписку на пользователя вы получаете доступ к его торговым сигналам.</p>
             <h3>Контакты</h3>
             <p>Email: <a href="mailto:thevalakas1@gmail.com">thevalakas1@gmail.com</a></p>
             <p>Telegram: <a href="https://t.me/Arseniys" target="_blank" rel="noopener">@Arseniys</a></p>

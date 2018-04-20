@@ -10,8 +10,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('sources_list', ['search_mode' => 'source']) }}">Статистика
-                    источников</a>
+                <a class="nav-link" href="{{ route('sources_list', ['search_mode' => 'source']) }}">Источники оповещений</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('/service_and_contacts') }}">Услуги и контакты</a>

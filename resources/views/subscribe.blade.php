@@ -48,7 +48,7 @@
                         <input type="hidden" name="WMI_DESCRIPTION" value="Подписка на пользователя {{ $user->name }}"/>
                         <input type="hidden" name="WMI_CULTURE_ID" value="ru-RU"/>
 
-                        <button type="submit" class="btn btn-dark-primary">Купить оповещения</button>
+                        <button type="submit" class="btn btn-dark-primary">Купить оповещения за {{ $price / 100 }} рублей</button>
                     </form>
                 </div>
             </div>

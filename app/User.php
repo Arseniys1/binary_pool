@@ -46,6 +46,16 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\UserSetting', 'user_id', 'id');
     }
 
+    public function settingsList() {
+        $settingsList = [];
+
+        foreach ($this->settings as $setting) {
+            $settingsList[$setting->name] = $setting->value;
+        }
+
+        return $settingsList;
+    }
+
     public function stat() {
         return $this->hasMany('App\Models\UserStat', 'user_id', 'id');
     }

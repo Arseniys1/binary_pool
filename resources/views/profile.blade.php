@@ -13,13 +13,15 @@
 
             <div class="filter text-right mt-5 mb-5">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a
-                                href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'fast_stat']) }}">Статистика
-                            пользователя</a></li>
-                    <li class="list-inline-item"><a
-                                href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'listeners']) }}">Слушатели
-                            пользователя</a></li>
                     @if(Auth::user()->id == Request::route('user_id'))
+                        <li class="list-inline-item"><a
+                                    href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'fast_stat']) }}">Моя
+                                статистика</a></li>
+
+                        <li class="list-inline-item"><a
+                                    href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'listeners']) }}">Мои
+                                слушатели</a></li>
+
                         <li class="list-inline-item"><a
                                     href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'my_stat']) }}">Мои
                                 сделки</a>
@@ -35,43 +37,50 @@
                                 настройки</a>
                         </li>
                     @else
-                        @foreach($user->settings as $setting)
-                            @if($setting->name == 'price')
-                                @if($setting->value != null)
-                                    <li class="list-inline-item"><a
-                                                href="{{ route('subscribe', ['user_id' => $user->id]) }}">Оповещения {{ $setting->value / 100 }}
-                                            рублей</a></li>
-                                @endif
-                            @endif
-                        @endforeach
+                        <li class="list-inline-item"><a
+                                    href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'fast_stat']) }}">Статистика</a>
+                        </li>
+
+                        <li class="list-inline-item"><a
+                                    href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'listeners']) }}">Слушатели</a>
+                        </li>
+
+                        @if($user->settingsList()['price'] != null)
+                            <li class="list-inline-item"><a
+                                        href="{{ route('subscribe', ['user_id' => $user->id]) }}">Купить
+                                    оповещения за {{ $user->settingsList()['price'] / 100 }}
+                                    рублей</a></li>
+                        @endif
                     @endif
                 </ul>
             </div>
 
             @if(Request::route('mode') == 'fast_stat' || Request::route('mode') == null)
                 @if($fast_stat->count() > 0)
-                    <div class="row p-fix">
+                    <div class="row">
                         @foreach($fast_stat as $stat)
-                            <div class="card col-md-6 text-center">
-                                <div class="card-body">
-                                    @if($stat->account_mode == 1)
-                                        <h5 class="card-title">Статистика источника</h5>
-                                    @elseif($stat->account_mode == 0)
-                                        <h5 class="card-title">Статистика слушателя</h5>
-                                    @elseif($stat->account_mode == 2)
-                                        <h5 class="card-title">Статистика демо источника</h5>
-                                    @elseif($stat->account_mode == 3)
-                                        <h5 class="card-title">Статистика демо слушателя</h5>
-                                    @endif
+                            <div class="col-md-6 mb-3">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        @if($stat->account_mode == 1)
+                                            <h5 class="card-title">Статистика источника</h5>
+                                        @elseif($stat->account_mode == 0)
+                                            <h5 class="card-title">Статистика слушателя</h5>
+                                        @elseif($stat->account_mode == 2)
+                                            <h5 class="card-title">Статистика демо источника</h5>
+                                        @elseif($stat->account_mode == 3)
+                                            <h5 class="card-title">Статистика демо слушателя</h5>
+                                        @endif
 
-                                    <ul class="list-unstyled">
-                                        <li class="text-success">Успешные {{ $stat->success_count }}</li>
-                                        <li class="text-danger">Проигрышные {{ $stat->loss_count }}</li>
-                                        <li class="">Возвраты {{ $stat->ret_count }}</li>
-                                        <li class="">Продажи {{ $stat->cancel_count }}</li>
-                                        <li class="text-success">Заработал {{ $stat->win_sum / 100 }}</li>
-                                        <li class="text-danger">Проиграл {{ $stat->loss_sum / 100 }}</li>
-                                    </ul>
+                                        <ul class="list-unstyled">
+                                            <li class="text-success">Успешные {{ $stat->success_count }}</li>
+                                            <li class="text-danger">Проигрышные {{ $stat->loss_count }}</li>
+                                            <li class="">Возвраты {{ $stat->ret_count }}</li>
+                                            <li class="">Продажи {{ $stat->cancel_count }}</li>
+                                            <li class="text-success">Заработал {{ $stat->win_sum / 100 }}</li>
+                                            <li class="text-danger">Проиграл {{ $stat->loss_sum / 100 }}</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -83,14 +92,17 @@
                 @endif
             @elseif(Request::route('mode') == 'listeners')
                 @if($notify_access->count() > 0)
-                    <div class="row mb-5 p-fix">
+                    <div class="row mb-5">
                         @foreach($notify_access as $notify)
-                            <div class="card col-md-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ $notify->user->name }}</h5>
+                            <div class="col-md-3 mb-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $notify->user->name }}</h5>
 
-                                    <a href="{{ route('profile', ['user_id' => $notify->user_id]) }}" class="card-link">В
-                                        профиль</a>
+                                        <a href="{{ route('profile', ['user_id' => $notify->user_id]) }}"
+                                           class="card-link">В
+                                            профиль</a>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -102,75 +114,77 @@
                 @endif
             @elseif(Request::route('mode') == 'my_stat')
                 @if($user_stat != null && $user_stat->count() > 0)
-                    <div class="row mb-5 p-fix">
+                    <div class="row mb-5">
                         @foreach($user_stat as $stat)
-                            <div class="card col-md-4">
-                                <div class="card-body">
-                                    <ul class="list-unstyled">
-                                        <li>Id: {{ $stat->id }}</li>
-                                        <li>Id в платформе: {{ $stat->platform_id }}</li>
+                            <div class="col-md-4 mb-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <ul class="list-unstyled">
+                                            <li>Id: {{ $stat->id }}</li>
+                                            <li>Id в платформе: {{ $stat->platform_id }}</li>
 
-                                        @if($stat->account_mode == 1)
-                                            <li>Режим: Источник</li>
-                                        @elseif($stat->account_mode == 0)
-                                            <li>Режим: Слушатель</li>
-                                        @elseif($stat->account_mode == 2)
-                                            <li>Режим: Демо источник</li>
-                                        @elseif($stat->account_mode == 3)
-                                            <li>Режим: Демо слушатель</li>
-                                        @endif
+                                            @if($stat->account_mode == 1)
+                                                <li>Режим: Источник</li>
+                                            @elseif($stat->account_mode == 0)
+                                                <li>Режим: Слушатель</li>
+                                            @elseif($stat->account_mode == 2)
+                                                <li>Режим: Демо источник</li>
+                                            @elseif($stat->account_mode == 3)
+                                                <li>Режим: Демо слушатель</li>
+                                            @endif
 
-                                        @if($stat->direction == 1)
-                                            <li>Up</li>
-                                        @elseif($stat->direction == 0)
-                                            <li>Down</li>
-                                        @endif
+                                            @if($stat->direction == 1)
+                                                <li class="text-success">Направление: Up</li>
+                                            @elseif($stat->direction == 0)
+                                                <li class="text-danger">Направление: Down</li>
+                                            @endif
 
-                                        <li>Сумма: {{ $stat->sum / 100 }}</li>
+                                            <li>Сумма: {{ $stat->sum / 100 }}</li>
 
-                                        @if($stat->status == 1)
-                                            <li class="text-success">Статус: Успешная</li>
-                                        @elseif($stat->status == 0)
-                                            <li class="text-danger">Статус: Проигрыш</li>
-                                        @elseif($stat->status == 2)
-                                            <li class="">Статус: Возврат</li>
-                                        @elseif($stat->status == 4)
-                                            <li class="">Статус: Продажа</li>
-                                        @elseif($stat->status == 3)
-                                            <li class="">Статус: Нет статуса</li>
-                                        @endif
+                                            @if($stat->status == 1)
+                                                <li class="text-success">Статус: Успешная</li>
+                                            @elseif($stat->status == 0)
+                                                <li class="text-danger">Статус: Проигрыш</li>
+                                            @elseif($stat->status == 2)
+                                                <li class="">Статус: Возврат</li>
+                                            @elseif($stat->status == 4)
+                                                <li class="">Статус: Продажа</li>
+                                            @elseif($stat->status == 3)
+                                                <li class="">Статус: Нет статуса</li>
+                                            @endif
 
-                                        <li>Валютная пара: {{ $stat->cur_pair }}</li>
+                                            <li>Валютная пара: {{ $stat->cur_pair }}</li>
 
-                                        @if($stat->demo == 1)
-                                            <li>Демо</li>
-                                        @elseif($stat->demo == 0)
-                                            <li>Реальный</li>
-                                        @endif
+                                            @if($stat->demo == 1)
+                                                <li>Демо</li>
+                                            @elseif($stat->demo == 0)
+                                                <li>Реальный</li>
+                                            @endif
 
-                                        <li>Создана: {{ $stat->created_at }}</li>
-                                        <li>Обновлена: {{ $stat->updated_at }}</li>
+                                            <li>Создана: {{ $stat->created_at }}</li>
+                                            <li>Обновлена: {{ $stat->updated_at }}</li>
 
-                                        @if($stat->sourceStat)
-                                            <div class="card mt-3">
-                                                <div class="card-body">
-                                                    <ul class="list-unstyled">
-                                                        <li>Статистика оповещения</li>
-                                                        <li class="text-success">
-                                                            Успешно {{ $stat->sourceStat->success_count }}</li>
-                                                        <li class="text-danger">
-                                                            Проигрыш {{ $stat->sourceStat->loss_count }}</li>
-                                                        <li>Возврат {{ $stat->sourceStat->ret_count }}</li>
-                                                        <li>Продажа {{ $stat->sourceStat->cancel_count }}</li>
-                                                        <li class="text-success">
-                                                            Заработали {{ $stat->sourceStat->win_sum / 100 }}</li>
-                                                        <li class="text-danger">
-                                                            Проиграли {{ $stat->sourceStat->loss_sum / 100 }}</li>
-                                                    </ul>
+                                            @if($stat->sourceStat)
+                                                <div class="card mt-3">
+                                                    <div class="card-body">
+                                                        <ul class="list-unstyled">
+                                                            <li>Статистика оповещения</li>
+                                                            <li class="text-success">
+                                                                Успешно {{ $stat->sourceStat->success_count }}</li>
+                                                            <li class="text-danger">
+                                                                Проигрыш {{ $stat->sourceStat->loss_count }}</li>
+                                                            <li>Возврат {{ $stat->sourceStat->ret_count }}</li>
+                                                            <li>Продажа {{ $stat->sourceStat->cancel_count }}</li>
+                                                            <li class="text-success">
+                                                                Заработали {{ $stat->sourceStat->win_sum / 100 }}</li>
+                                                            <li class="text-danger">
+                                                                Проиграли {{ $stat->sourceStat->loss_sum / 100 }}</li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        @endif
-                                    </ul>
+                                            @endif
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
