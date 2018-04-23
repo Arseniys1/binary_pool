@@ -55,6 +55,15 @@
                                     оповещения за {{ $user->settingsList()['price'] / 100 }}
                                     рублей</a></li>
                         @endif
+
+                        @if(count($user->notifyAccessPresets()
+                                        ->where('source_id', '=', $user->id)
+                                        ->where('status', '=', \App\Models\NotifyAccessPreset::ACTIVE_STATUS)
+                                        ->get()) > 0)
+                            <li class="list-inline-item"><a
+                                        href="{{ route('access.demo', ['user_id' => $user->id]) }}">Демо доступ</a>
+                            </li>
+                        @endif
                     @endif
                 </ul>
             </div>
