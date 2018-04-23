@@ -73,4 +73,8 @@ class User extends Authenticatable
             ->wherePivot('user_id', $this->id)
             ->withPivot('id', 'status');
     }
+
+    public function notifyAccessPresets() {
+        return $this->hasMany('App\Models\NotifyAccessPreset', 'source_id', 'id');
+    }
 }

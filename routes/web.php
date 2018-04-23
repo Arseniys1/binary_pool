@@ -24,6 +24,23 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/subscribe/{user_id}', 'SubscribeController@get')->name('subscribe');
 
     Route::get('/my_access', 'MyAccessController@get')->name('my_access');
+
+    Route::group(['prefix' => 'access'], function () {
+        Route::get('/', 'AccessController@get')->name('access');
+        Route::get('/requests', 'AccessController@get')->name('access.requests');
+        Route::post('/requests/accept', 'AccessController@postRequestsAccept')->name('access.requests.accept');
+        Route::post('/requests/reject', 'AccessController@postRequestsReject')->name('access.requests.reject');
+        Route::get('/presets', 'AccessController@getPresets')->name('access.presets');
+        Route::post('/presets/save', 'AccessController@postPresetsSave')->name('access.presets.save');
+        Route::post('/presets/edit', 'AccessController@postPresetsEdit')->name('access.presets.edit');
+        Route::post('/presets/delete', 'AccessController@postPresetsDelete')->name('access.presets.delete');
+        Route::get('/links', 'AccessController@getLinks')->name('access.links');
+        Route::post('/links/create', 'AccessController@postLinksCreate')->name('access.links.create');
+        Route::post('/links/delete', 'AccessController@postLinksDelete')->name('access.links.delete');
+        Route::get('/key/{key}', 'AccessController@getActivateLink')->name('access.activate.link');
+        Route::get('/demo/{user_id}', 'AccessController@getDemo')->name('access.demo');
+        Route::post('/demo/send', 'AccessController@postDemo')->name('access.requests.send');
+    });
 });
 
 Route::group(['middleware' => ['auth:api', 'api.headers'], 'prefix' => 'api'], function () {

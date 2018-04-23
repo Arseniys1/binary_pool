@@ -52,7 +52,8 @@
                                             <h6>Подписка</h6>
                                             <ul class="list-unstyled">
                                                 <li>Стоимость
-                                                    оповещений: <b>{{ $stat->user->settingsList()['price'] / 100 }}</b> рублей
+                                                    оповещений: <b>{{ $stat->user->settingsList()['price'] / 100 }}</b>
+                                                    рублей
                                                 </li>
                                                 @if($stat->user->settingsList()['forever'])
                                                     <li>Тип подписки: Перманентная</li>
@@ -68,6 +69,15 @@
                                             <a href="{{ route('subscribe', ['user_id' => $stat->user->id]) }}"
                                                class="card-link">Купить оповещения</a>
                                         @endif
+
+                                        @if(count($stat->user->notifyAccessPresets()
+                                        ->where('source_id', '=', $stat->user->id)
+                                        ->where('status', '=', \App\Models\NotifyAccessPreset::ACTIVE_STATUS)
+                                        ->get()) > 0)
+                                            <a href="{{ route('access.demo', ['user_id' => $stat->user->id]) }}"
+                                               class="card-link">Демо доступ</a>
+                                        @endif
+
                                         @auth
                                             <a href="{{ route('profile', ['user_id' => $stat->user->id]) }}"
                                                class="card-link">В

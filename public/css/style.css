@@ -74,3 +74,15 @@ a.disabled {
     color: #0056b3;
     pointer-events: none;
 }
+
+.modal-content {
+    background-color: #243445;
+}
+
+.modal-content .modal-header {
+    border-bottom: 1px solid #365271;
+}
+
+.modal-content .modal-footer {
+    border-top: 1px solid #365271;
+}

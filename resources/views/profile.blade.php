@@ -36,6 +36,10 @@
                                     href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'my_settings']) }}">Мои
                                 настройки</a>
                         </li>
+
+                        <li class="list-inline-item"><a
+                                    href="{{ route('access') }}">Доступ к подпискам</a>
+                        </li>
                     @else
                         <li class="list-inline-item"><a
                                     href="{{ route('profile', ['user_id' => $user->id, 'mode' => 'fast_stat']) }}">Статистика</a>
