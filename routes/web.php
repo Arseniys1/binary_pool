@@ -14,6 +14,10 @@ Route::get('/about_service', function () {
     return view('about_service');
 });
 
+Route::get('/terms/1', function () {
+    return view('auth.terms_1');
+})->name('terms_1');
+
 Route::post('/payment', 'PaymentController@post');
 
 Route::group(['middleware' => ['web', 'auth']], function () {
