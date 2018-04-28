@@ -1,0 +1,137 @@
+.bg-dark {
+  background-color: #243445 !important;
+}
+
+.bg-dark2 {
+  background-color: #202e3e !important;
+}
+
+.bg-dark3 {
+  background-color: #202d3c !important;
+}
+
+.bg-dark4 {
+  background-color: #192533 !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: #fff;
+}
+
+.navbar-brand img {
+  height: 25px;
+  width: 25px;
+}
+
+.dd-fix {
+  left: -60px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  top: 0;
+  left: -40px;
+  background-image: url(https://avataaars.io/?avatarStyle=Circle&topType=LongHairShavedSides&access…e=Surprised&eyebrowType=RaisedExcitedNatural&mouthType=Sad&skinColor=Brown);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 40px;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.avatar-inline {
+  background-image: url(https://avataaars.io/?avatarStyle=Circle&topType=LongHairShavedSides&access…e=Surprised&eyebrowType=RaisedExcitedNatural&mouthType=Sad&skinColor=Brown);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 40px;
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+}
+
+.dropdown-menu-dark {
+  background-color: #243445;
+  color: #fff;
+}
+
+.dropdown-menu-dark .dropdown-item {
+  color: #fff;
+}
+
+.dropdown-menu-dark .dropdown-item:hover, .dropdown-item:active, .dropdown-item:focus {
+  background-color: #1e2c3c;
+}
+
+.left-side {
+  height: calc(100vh - 55px);
+  padding: 15px 0;
+  overflow-y: auto;
+}
+
+.left-side-list li {
+  margin: 0 0 15px 0;
+}
+
+.btn-list {
+  background-color: #192533;
+  color: #fff;
+}
+
+#left-side-wrap {
+  overflow: hidden;
+}
+
+// Scroll
+.scrollbar-custom::-webkit-scrollbar{
+  width:12px;
+}
+.scrollbar-custom::-webkit-scrollbar:horizontal{
+  height:12px;
+}
+.scrollbar-custom::-webkit-scrollbar-track{
+  border: 1px #263f5b solid;
+  border-radius: 1px;
+  -webkit-box-shadow: 0 0 6px #192533 inset;
+}
+.scrollbar-custom::-webkit-scrollbar-thumb{
+  background-color: #192533;
+  border: 1px solid #202e3e;
+  border-radius: 1px;
+}
+.scrollbar-custom::-webkit-scrollbar-thumb:hover{
+  background-color:#192533;
+  border:1px solid #333333;
+}
+.scrollbar-custom::-webkit-scrollbar-thumb:active{
+  background-color:#192533;
+  border:1px solid #333333;
+}
+
+.form-control {
+  background-color: #202e3e;
+  color: #fff;
+  border: 1px solid #192533;
+}
+
+.form-control:focus {
+  background-color: #202e3e;
+  color: #fff;
+}
+
+.modal-header {
+  border-bottom: 1px solid #192431;
+}
+
+.modal-footer {
+  border-top: 1px solid #192431;
+}
+
+.fa.hover:hover, .fas.hover:hover, .fab.hover:hover {
+  color: rgba(166, 167, 165, 0.5);
+  cursor: pointer;
+}
+
+body {
+  color: #fff;
+}

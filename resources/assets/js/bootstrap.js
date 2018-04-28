@@ -45,12 +45,33 @@ if (token) {
  */
 
 // import Echo from 'laravel-echo'
-
+//
 // window.Pusher = require('pusher-js');
-
+//
+// const api_token = 'qHCmgjR6SmuwP0RE0KlEXf86tZNuzFWl';
+//
 // window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     encrypted: true
+//     broadcaster: 'socket.io',
+//     host: 'http://localhost:6001',
+//     auth: { headers: { 'Authorization': 'Bearer ' + api_token } }
 // });
+//
+// window.Echo.private('test-channel').listen('TestEvent', (e) => {
+//     console.log(e);
+// });
+
+
+
+
+
+
+
+/**
+ * Tooltips
+ */
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip({
+        trigger: 'hover',
+    });
+});

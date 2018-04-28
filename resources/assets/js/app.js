@@ -15,11 +15,50 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-import ExampleComponent from './components/ExampleComponent';
+import Navbar from './components/Navbar';
+import LeftSide from './components/LeftSide';
+import Sources from './components/Pages/Sources';
 
 const app = new Vue({
     el: '#app',
     components: {
-        ExampleComponent,
+        Navbar,
+        LeftSide,
+        Sources,
+    },
+    data() {
+        return {
+
+        };
+    },
+    methods: {
+        leftSideToggle() {
+            const $leftSideWrap = $('#left-side-wrap');
+            const $contentWrap = $('#content-wrap');
+            const $sourcesListenersLists = $('#sources-listeners-lists');
+
+            if ($leftSideWrap.hasClass('col-2')) {
+                $leftSideWrap.removeClass('col-2');
+                $leftSideWrap.addClass('col-12');
+                leftSide.$data.showToggleBtn = true;
+            } else {
+                $leftSideWrap.removeClass('col-12');
+                $leftSideWrap.addClass('col-2');
+                leftSide.$data.showToggleBtn = false;
+            }
+
+            if ($sourcesListenersLists.hasClass('d-none')) {
+                $sourcesListenersLists.removeClass('d-none');
+                $sourcesListenersLists.removeClass('d-md-block');
+                $sourcesListenersLists.addClass('d-block');
+            } else {
+                $sourcesListenersLists.removeClass('d-block');
+                $sourcesListenersLists.addClass('d-none');
+                $sourcesListenersLists.addClass('d-md-block');
+            }
+        },
+    },
+    created() {
+        window.app = this;
     },
 });
