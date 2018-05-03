@@ -1,20 +1,10 @@
 <?php
 
-use App\Events\TestEvent;
-
 Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/sources', 'v2\SourcesController@get');
-
-Route::get('/broadcast', function () {
-    return view('broadcast');
-});
-
-Route::post('/broadcast', function () {
-    broadcast(new TestEvent());
-});
+Route::get('/sources', 'v2\SourcesController@get')->middleware('static.elements');
 
 Route::get('/how_to_receive_signals', function () {
     return view('how_to_receive_signals');

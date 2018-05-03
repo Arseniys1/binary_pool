@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Helpers\UserSettings;
 
 class User extends Authenticatable
 {
@@ -54,6 +55,21 @@ class User extends Authenticatable
         }
 
         return $settingsList;
+    }
+
+    public function settingsObj() {
+        return new UserSettings($this->settingsList());
+    }
+
+    public function toArray()
+    {
+        $result = parent::toArray();
+
+        if (array_key_exists('settings', $result)) {
+            $result['settings'] = $this->settingsList();
+        }
+
+        return $result;
     }
 
     public function stat() {

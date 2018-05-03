@@ -161,6 +161,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
+        \App\Providers\StaticElementsProvider::class,
     ],
 
     /*
@@ -209,6 +210,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'StaticElements' => \App\Helpers\Facades\StaticElementsFacade::class,
 
     ],
 
