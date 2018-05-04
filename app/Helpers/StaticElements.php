@@ -22,6 +22,8 @@ class StaticElements implements StaticElementsContract
         JavaScript::put([
             'auth' => true,
             'user' => Auth::user()->load('settings'),
+            'sources' => Auth::user()->sources()->limit(15)->get(),
+            'listeners' => Auth::user()->listeners()->limit(15)->get(),
         ]);
     }
 

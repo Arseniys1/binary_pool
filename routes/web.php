@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\PublicChatMessage;
+
 Route::get('/', function () {
     return view('index');
 });
@@ -67,6 +69,12 @@ Route::group(['middleware' => ['auth:api', 'api.headers'], 'prefix' => 'api'], f
     Route::post('/updateNotify', 'Api\NotifyController@updateNotify');
 
     Route::post('/getSourceStat', 'Api\NotifyController@getSourceStat');
+});
+
+Route::group(['middleware' => ['auth:api', 'api.headers'], 'prefix' => 'api/v2'], function () {
+    Route::post('/sendMessage', 'Api\v2\ChatController@postSendMessage');
+
+    Route::post('/openChat', 'Api\v2\ChatController@postOpenChat');
 });
 
 Auth::routes();

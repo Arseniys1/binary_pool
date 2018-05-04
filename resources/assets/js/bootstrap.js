@@ -44,26 +44,7 @@ if (token) {
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from 'laravel-echo'
-//
-// window.Pusher = require('pusher-js');
-//
-// const api_token = 'qHCmgjR6SmuwP0RE0KlEXf86tZNuzFWl';
-//
-// window.Echo = new Echo({
-//     broadcaster: 'socket.io',
-//     host: 'http://localhost:6001',
-//     auth: { headers: { 'Authorization': 'Bearer ' + api_token } }
-// });
-//
-// window.Echo.private('test-channel').listen('TestEvent', (e) => {
-//     console.log(e);
-// });
-
-
-
-
-
+require('./broadcast');
 
 
 /**

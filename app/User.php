@@ -93,4 +93,12 @@ class User extends Authenticatable
     public function notifyAccessPresets() {
         return $this->hasMany('App\Models\NotifyAccessPreset', 'source_id', 'id');
     }
+
+    public function sources() {
+        return $this->hasManyThrough('App\User', 'App\Models\NotifyAccess', 'user_id', 'id', 'id', 'source_id');
+    }
+
+    public function listeners() {
+        return $this->hasManyThrough('App\User', 'App\Models\NotifyAccess', 'source_id', 'id', 'id', 'user_id');
+    }
 }

@@ -86,24 +86,8 @@
             return {
                 showToggleBtn: false,
                 showSourceOrListeners: true,
-                sourceItems: [
-                    {name: 'Arseniys1', online: true,},
-                    {name: 'Arseniys2', online: true,},
-                    {name: 'Arseniys2', online: true,},
-                    {name: 'Arseniys2', online: true,},
-                    {name: 'Arseniys2', online: true,},
-                    {name: 'Arseniys2', online: true,},
-                    {name: 'Arseniys2', online: true,},
-                    {name: 'Arseniys2', online: true,},
-                    {name: 'Arseniys2', online: true,},
-                    {name: 'Arseniys2', online: true,},
-                    {name: 'Arseniys2', online: true,},
-                    {name: 'Arseniys2', online: true,},
-                    {name: 'Arseniys2', online: true,},
-                ],
-                listenerItems: [
-                    {name: 'Arseniys1', online: true},
-                ],
+                sourceItems: [],
+                listenerItems: [],
             };
         },
         methods: {
@@ -119,6 +103,9 @@
         },
         created() {
             window.leftSide = this;
+
+            this.sourceItems = window.data.sources;
+            this.listenerItems = window.data.listeners;
         },
     }
 </script>
