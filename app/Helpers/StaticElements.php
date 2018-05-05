@@ -31,6 +31,8 @@ class StaticElements implements StaticElementsContract
     {
         JavaScript::put([
             'auth' => false,
+            'sources' => [],
+            'listeners' => [],
         ]);
     }
 

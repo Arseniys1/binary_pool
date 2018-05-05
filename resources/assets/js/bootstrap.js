@@ -48,11 +48,7 @@ require('./broadcast');
 
 
 /**
- * Tooltips
+ * helpers
  */
 
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip({
-        trigger: 'hover',
-    });
-});
+require('./helpers');

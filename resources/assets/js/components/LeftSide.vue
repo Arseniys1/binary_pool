@@ -33,8 +33,8 @@
             <li class="d-none d-md-block" id="sources-listeners-lists">
                 <div class="mb-4">
                     <ul class="list-inline">
-                        <li class="list-inline-item mb-1">Источники online 14/25</li>
-                        <li class="list-inline-item mb-1">Слушатели online 68/100</li>
+                        <li class="list-inline-item mb-1">Источники online {{ this.sourceOnlineCount + '/' + this.sourceItems.length }}</li>
+                        <li class="list-inline-item mb-1">Слушатели online {{ this.listenerOnlineCount + '/' + this.listenerItems.length }}</li>
                     </ul>
                 </div>
 
@@ -88,6 +88,8 @@
                 showSourceOrListeners: true,
                 sourceItems: [],
                 listenerItems: [],
+                sourceOnlineCount: 0,
+                listenerOnlineCount: 0,
             };
         },
         methods: {
@@ -100,12 +102,29 @@
             listenersShow() {
                 this.showSourceOrListeners = false;
             },
+            onlineCounters() {
+                this.sourceOnlineCount = this.listenerOnlineCount = 0;
+
+                for (const key in this.sourceItems) {
+                    let item = this.sourceItems[key];
+
+                    if (item.online) this.sourceOnlineCount += 1;
+                }
+
+                for (const key in this.listenerItems) {
+                    let item = this.listenerItems[key];
+
+                    if (item.online) this.listenerOnlineCount += 1;
+                }
+            },
         },
         created() {
             window.leftSide = this;
 
             this.sourceItems = window.data.sources;
             this.listenerItems = window.data.listeners;
+
+            this.onlineCounters();
         },
     }
 </script>

@@ -14456,14 +14456,10 @@ if (token) {
 __webpack_require__(40);
 
 /**
- * Tooltips
+ * helpers
  */
 
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip({
-    trigger: 'hover'
-  });
-});
+__webpack_require__(95);
 
 /***/ }),
 /* 18 */
@@ -53039,7 +53035,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -53147,7 +53143,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             showToggleBtn: false,
             showSourceOrListeners: true,
             sourceItems: [],
-            listenerItems: []
+            listenerItems: [],
+            sourceOnlineCount: 0,
+            listenerOnlineCount: 0
         };
     },
 
@@ -53160,6 +53158,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         listenersShow: function listenersShow() {
             this.showSourceOrListeners = false;
+        },
+        onlineCounters: function onlineCounters() {
+            this.sourceOnlineCount = this.listenerOnlineCount = 0;
+
+            for (var key in this.sourceItems) {
+                var item = this.sourceItems[key];
+
+                if (item.online) this.sourceOnlineCount += 1;
+            }
+
+            for (var _key in this.listenerItems) {
+                var _item = this.listenerItems[_key];
+
+                if (_item.online) this.listenerOnlineCount += 1;
+            }
         }
     },
     created: function created() {
@@ -53167,6 +53180,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         this.sourceItems = window.data.sources;
         this.listenerItems = window.data.listeners;
+
+        this.onlineCounters();
     }
 });
 
@@ -53288,8 +53303,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getLastOnline: function getLastOnline() {
             var date = new Date(this.item.last_online);
 
-            return date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear() % 100 + ' ' + date.getHours() + ':' + date.getSeconds();
+            return date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear() % 100 + ' ' + date.getHours() + ':' + date.getSeconds();
         }
+    },
+    mounted: function mounted() {
+        window.initTooltips();
     }
 });
 
@@ -53457,7 +53475,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "listener-item",
-    props: ['item']
+    props: ['item'],
+    methods: {
+        getLastOnline: function getLastOnline() {
+            var date = new Date(this.item.last_online);
+
+            return date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear() % 100 + ' ' + date.getHours() + ':' + date.getSeconds();
+        }
+    },
+    mounted: function mounted() {
+        window.initTooltips();
+    }
 });
 
 /***/ }),
@@ -53485,7 +53513,7 @@ var render = function() {
             attrs: {
               "data-toggle": "tooltip",
               "data-placement": "top",
-              title: "Last online"
+              title: "Последний раз онлайн " + _vm.getLastOnline()
             }
           })
         : _vm._e(),
@@ -54112,13 +54140,35 @@ var render = function() {
             attrs: { id: "sources-listeners-lists" }
           },
           [
-            _vm._m(0),
+            _c("div", { staticClass: "mb-4" }, [
+              _c("ul", { staticClass: "list-inline" }, [
+                _c("li", { staticClass: "list-inline-item mb-1" }, [
+                  _vm._v(
+                    "Источники online " +
+                      _vm._s(
+                        this.sourceOnlineCount + "/" + this.sourceItems.length
+                      )
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "list-inline-item mb-1" }, [
+                  _vm._v(
+                    "Слушатели online " +
+                      _vm._s(
+                        this.listenerOnlineCount +
+                          "/" +
+                          this.listenerItems.length
+                      )
+                  )
+                ])
+              ])
+            ]),
             _vm._v(" "),
             _vm.showSourceOrListeners
               ? _c("div", { staticClass: "sources-list" }, [
                   _c("h5", [_vm._v("Источники")]),
                   _vm._v(" "),
-                  _vm._m(1),
+                  _vm._m(0),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -54137,7 +54187,7 @@ var render = function() {
               ? _c("div", { staticClass: "listeners-list" }, [
                   _c("h5", [_vm._v("Слушатели")]),
                   _vm._v(" "),
-                  _vm._m(2),
+                  _vm._m(1),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -54170,22 +54220,6 @@ var render = function() {
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mb-4" }, [
-      _c("ul", { staticClass: "list-inline" }, [
-        _c("li", { staticClass: "list-inline-item mb-1" }, [
-          _vm._v("Источники online 14/25")
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "list-inline-item mb-1" }, [
-          _vm._v("Слушатели online 68/100")
-        ])
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -54710,6 +54744,21 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */
+/***/ (function(module, exports) {
+
+window.initTooltips = function () {
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip({
+            trigger: 'hover'
+        });
+    });
+};
 
 /***/ })
 /******/ ]);

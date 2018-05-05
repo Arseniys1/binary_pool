@@ -21,8 +21,11 @@
             getLastOnline() {
                 const date = new Date(this.item.last_online);
 
-                return date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear() % 100 + ' ' + date.getHours() + ':' + date.getSeconds();
+                return date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear() % 100 + ' ' + date.getHours() + ':' + date.getSeconds();
             },
+        },
+        mounted() {
+            window.initTooltips();
         },
     }
 </script>
